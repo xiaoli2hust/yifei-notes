@@ -59,14 +59,16 @@ function renderList() {
   }
 
   postListEl.innerHTML = current
-    .map(
-      (p) => `
+    .map((p) => {
+      const href = p.type === 'webslides' && p.url ? p.url : `#${p.slug}`;
+      const attrs = p.type === 'webslides' ? '' : `data-slug="${p.slug}"`;
+      return `
     <li>
-      <a class="post-link" href="#${p.slug}" data-slug="${p.slug}">${p.title}</a>
+      <a class="post-link" href="${href}" ${attrs}>${p.title}</a>
       <div class="post-meta">${p.date || ''} · ${(p.tags || []).join(' / ')}</div>
     </li>
-  `,
-    )
+  `;
+    })
     .join('');
 }
 

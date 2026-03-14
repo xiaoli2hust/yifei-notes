@@ -1,5 +1,16 @@
 [
   {
+    "title": "AI 转型 Web Slides（演示版）",
+    "slug": "ai-transformation",
+    "date": "2026-03-15",
+    "tags": [
+      "showhub",
+      "webslides"
+    ],
+    "type": "webslides",
+    "url": "./ai-transformation.html"
+  },
+  {
     "title": "AI+ Engineer：从共识到现实的三年进化",
     "slug": "ai-engineer-evolution",
     "date": "2026-03-14",
