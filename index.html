@@ -1,0 +1,45 @@
+<!doctype html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>我的个人站</title>
+  <meta name="description" content="记录想法、项目和日常笔记" />
+  <link rel="stylesheet" href="./styles.css" />
+</head>
+<body>
+  <header class="site-header">
+    <div class="container">
+      <h1>胡达的个人站</h1>
+      <p>写点东西，记录一些有意思的事。</p>
+      <nav>
+        <a href="#posts">文章</a>
+        <a href="#about">关于</a>
+      </nav>
+    </div>
+  </header>
+
+  <main class="container">
+    <section id="posts" class="card">
+      <h2>最近文章</h2>
+      <ul id="post-list" class="post-list"></ul>
+    </section>
+
+    <section id="viewer" class="card hidden">
+      <button id="back-btn" class="btn">← 返回列表</button>
+      <article id="post-content"></article>
+    </section>
+
+    <section id="about" class="card">
+      <h2>关于我</h2>
+      <p>这是第一版个人站。先用最轻的方式跑起来，后续再迭代成支持后台发布、搜索和评论。</p>
+    </section>
+  </main>
+
+  <footer class="site-footer">
+    <div class="container">© <span id="year"></span> 我的个人站</div>
+  </footer>
+
+  <script src="./app.js"></script>
+</body>
+</html>
