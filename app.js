@@ -14,6 +14,15 @@ const postsSection = document.getElementById('posts');
 
 document.getElementById('year').textContent = new Date().getFullYear();
 
+function escapeHtml(s = '') {
+  return s
+    .replaceAll('&', '&amp;')
+    .replaceAll('<', '&lt;')
+    .replaceAll('>', '&gt;')
+    .replaceAll('"', '&quot;')
+    .replaceAll("'", '&#39;');
+}
+
 function toMonth(dateStr = '') {
   return String(dateStr).slice(0, 7);
 }
@@ -78,15 +87,122 @@ function renderFilters() {
     .join('');
 }
 
-function mdToHtml(md) {
-  return md
-    .replace(/^###\s+(.*)$/gm, '<h3>$1</h3>')
-    .replace(/^##\s+(.*)$/gm, '<h2>$1</h2>')
-    .replace(/^#\s+(.*)$/gm, '<h1>$1</h1>')
-    .replace(/^>\s+(.*)$/gm, '<blockquote>$1</blockquote>')
-    .replace(/```([\s\S]*?)```/g, '<pre><code>$1</code></pre>')
-    .replace(/\*\*(.*?)\*\*/g, '<strong>$1</strong>')
-    .replace(/\n\n/g, '</p><p>');
+function parseInline(text = '') {
+  let out = escapeHtml(text);
+  out = out.replace(/`([^`]+)`/g, '<code>$1</code>');
+  out = out.replace(/\*\*(.+?)\*\*/g, '<strong>$1</strong>');
+  out = out.replace(/\*(.+?)\*/g, '<em>$1</em>');
+  out = out.replace(/\[(.*?)\]\((https?:\/\/[^\s)]+)\)/g, '<a href="$2" target="_blank" rel="noopener noreferrer">$1</a>');
+  return out;
+}
+
+function mdToHtml(mdRaw = '') {
+  const md = mdRaw.replace(/\r\n/g, '\n').replace(/\r/g, '\n');
+  const lines = md.split('\n');
+  const html = [];
+
+  let inCode = false;
+  let codeLang = '';
+  let inUl = false;
+  let inOl = false;
+  let para = [];
+
+  const flushPara = () => {
+    if (para.length) {
+      html.push(`<p>${parseInline(para.join('<br/>'))}</p>`);
+      para = [];
+    }
+  };
+
+  const closeLists = () => {
+    if (inUl) {
+      html.push('</ul>');
+      inUl = false;
+    }
+    if (inOl) {
+      html.push('</ol>');
+      inOl = false;
+    }
+  };
+
+  for (const line of lines) {
+    if (line.trim().startsWith('```')) {
+      flushPara();
+      closeLists();
+      if (!inCode) {
+        inCode = true;
+        codeLang = line.trim().slice(3).trim();
+        html.push(`<pre><code class="lang-${escapeHtml(codeLang)}">`);
+      } else {
+        inCode = false;
+        codeLang = '';
+        html.push('</code></pre>');
+      }
+      continue;
+    }
+
+    if (inCode) {
+      html.push(escapeHtml(line));
+      html.push('\n');
+      continue;
+    }
+
+    if (!line.trim()) {
+      flushPara();
+      closeLists();
+      continue;
+    }
+
+    const heading = line.match(/^(#{1,6})\s+(.*)$/);
+    if (heading) {
+      flushPara();
+      closeLists();
+      const level = heading[1].length;
+      html.push(`<h${level}>${parseInline(heading[2])}</h${level}>`);
+      continue;
+    }
+
+    const quote = line.match(/^>\s?(.*)$/);
+    if (quote) {
+      flushPara();
+      closeLists();
+      html.push(`<blockquote><p>${parseInline(quote[1])}</p></blockquote>`);
+      continue;
+    }
+
+    const ul = line.match(/^[-*+]\s+(.*)$/);
+    if (ul) {
+      flushPara();
+      if (!inUl) {
+        closeLists();
+        inUl = true;
+        html.push('<ul>');
+      }
+      html.push(`<li>${parseInline(ul[1])}</li>`);
+      continue;
+    }
+
+    const ol = line.match(/^\d+\.\s+(.*)$/);
+    if (ol) {
+      flushPara();
+      if (!inOl) {
+        closeLists();
+        inOl = true;
+        html.push('<ol>');
+      }
+      html.push(`<li>${parseInline(ol[1])}</li>`);
+      continue;
+    }
+
+    para.push(line);
+  }
+
+  flushPara();
+  closeLists();
+
+  if (inCode) html.push('</code></pre>');
+
+  return html.join('\n');
 }
 
 async function openPost(slug) {
@@ -94,7 +210,7 @@ async function openPost(slug) {
   if (!target) return;
 
   const text = await fetch(`./posts/${slug}.md`).then((r) => r.text());
-  contentEl.innerHTML = `<p>${mdToHtml(text)}</p>`;
+  contentEl.innerHTML = mdToHtml(text);
 
   viewer.classList.remove('hidden');
   postsSection.classList.add('hidden');
