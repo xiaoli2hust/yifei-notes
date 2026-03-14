@@ -3,14 +3,14 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>我的个人站</title>
+  <title>Jerry的个人站</title>
   <meta name="description" content="记录想法、项目和日常笔记" />
   <link rel="stylesheet" href="./styles.css" />
 </head>
 <body>
   <header class="site-header">
     <div class="container">
-      <h1>胡达的个人站</h1>
+      <h1>Jerry的个人站</h1>
       <p>写点东西，记录一些有意思的事。</p>
       <nav>
         <a href="#posts">文章</a>
@@ -19,35 +19,34 @@
     </div>
   </header>
 
-  <main class="container">
-    <section id="posts" class="card">
-      <h2>最近文章</h2>
-      <div class="posts-grid">
-        <div>
-          <ul id="post-list" class="post-list"></ul>
-        </div>
-        <aside class="index-panel">
-          <div class="filter-title">索引筛选</div>
-          <button id="reset-filter" class="btn btn-small">重置筛选</button>
+  <main class="container main-layout">
+    <section class="content-column">
+      <section id="posts" class="card">
+        <h2>最近文章</h2>
+        <ul id="post-list" class="post-list"></ul>
+      </section>
 
-          <h3>按主题标签</h3>
-          <div id="tag-filter" class="chips"></div>
+      <section id="viewer" class="card hidden">
+        <button id="back-btn" class="btn">← 返回列表</button>
+        <article id="post-content"></article>
+      </section>
 
-          <h3>按年月</h3>
-          <div id="month-filter" class="chips"></div>
-        </aside>
-      </div>
+      <section id="about" class="card">
+        <h2>关于我</h2>
+        <p>这是第一版个人站。先用最轻的方式跑起来，后续再迭代成支持后台发布、搜索和评论。</p>
+      </section>
     </section>
 
-    <section id="viewer" class="card hidden">
-      <button id="back-btn" class="btn">← 返回列表</button>
-      <article id="post-content"></article>
-    </section>
+    <aside class="index-panel">
+      <div class="filter-title">索引筛选</div>
+      <button id="reset-filter" class="btn btn-small">重置筛选</button>
 
-    <section id="about" class="card">
-      <h2>关于我</h2>
-      <p>这是第一版个人站。先用最轻的方式跑起来，后续再迭代成支持后台发布、搜索和评论。</p>
-    </section>
+      <h3>按主题标签</h3>
+      <div id="tag-filter" class="chips"></div>
+
+      <h3>按年月</h3>
+      <div id="month-filter" class="chips"></div>
+    </aside>
   </main>
 
   <footer class="site-footer">
