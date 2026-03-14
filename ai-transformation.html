@@ -3,44 +3,160 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>AI 转型 Web Slides | Jerry Notes</title>
-  <link rel="stylesheet" href="./slides.css" />
+  <title>AI Talking | Jerry Notes</title>
+  <link rel="stylesheet" href="./slides.css?v=202603150820" />
 </head>
-<body>
-  <header class="topbar">
-    <a href="./index.html" class="back">← 返回 Jerry Notes</a>
-    <h1>AI Transformation · Web Slides</h1>
-  </header>
+<body class="ai-transformation-root">
+  <div class="ai-deck-shell">
+    <div class="ai-deck-topbar">
+      <a href="./index.html" class="back">← 返回 Jerry Notes</a>
+      <div class="ai-deck-logo">AI Talking</div>
+      <div class="ai-deck-shortcuts">←/→ 翻页 · Space 下一页 · N 备注 · O 总览</div>
+    </div>
 
-  <main class="slides">
-    <section class="slide hero">
-      <p class="kicker">SHOWHUB 风格镜像</p>
-      <h2>从 GTC 技术趋势反推丰图的机会窗口</h2>
-      <p>把黑板报内容整理为适合演示与检索的 Web Slides 形态。</p>
-      <div class="meta">2026-03-14 · Jerry Notes</div>
-    </section>
+    <div id="overview" class="ai-overview-grid hidden"></div>
 
-    <section class="slide">
-      <h3>精选文章（已抓取目录）</h3>
-      <ul class="article-list">
-        <li><a href="./index.html#gtc-spatial-intelligence-opportunity">从GTC的技术趋势反推丰图的机会窗口</a></li>
-        <li><a href="./index.html#open-tech-ecosystem">关于开放：不是姿态，而是一种长期效率选择</a></li>
-        <li><a href="./index.html#ai-engineer-evolution">【转载】超越 PingCAP，打造你公司的 AI 原生开发团队</a></li>
-        <li><a href="./index.html#ai-plus-product">当所有人盯着机器人时，真正的“机器时代”已经从键盘开始</a></li>
-        <li><a href="./index.html#data-factory">数据创新安全仓（Data Innovation Sandbox）建设方案</a></li>
-        <li><a href="./index.html#open-platform-3-0">打造工程师文化：公司技术社区与开放论坛建设</a></li>
-      </ul>
-    </section>
+    <div class="ai-deck-main">
+      <div id="slideFrame" class="ai-slide-frame">
+        <div class="ai-slide-inner">
+          <header class="ai-slide-header">
+            <div id="slideTag" class="ai-slide-tag"></div>
+            <div class="ai-slide-progress">
+              <span id="slideProgressText"></span>
+              <div class="ai-slide-progress-bar">
+                <div id="slideProgressFill" class="ai-slide-progress-fill"></div>
+              </div>
+            </div>
+          </header>
 
-    <section class="slide">
-      <h3>这版做了什么</h3>
-      <ol>
-        <li>从 blackboard / ai-transformation 抓取文章列表和核心内容。</li>
-        <li>在 jerry-notes 中新增独立 Web Slides 页面。</li>
-        <li>保持暗色、卡片化、演示式阅读风格。</li>
-        <li>后续可继续扩展成左右翻页、键盘控制、全屏演示模式。</li>
-      </ol>
-    </section>
-  </main>
+          <main id="slideMain" class="ai-slide-main"></main>
+
+          <footer class="ai-slide-footer">
+            <div id="slidePart" class="ai-slide-footer-left"></div>
+            <div class="ai-slide-footer-center">Press N 查看备注</div>
+            <div id="slideTagFooter" class="ai-slide-footer-right"></div>
+          </footer>
+        </div>
+
+        <aside id="slideNotes" class="ai-slide-notes hidden"></aside>
+      </div>
+    </div>
+  </div>
+
+  <script src="./ai-transformation-data.js?v=202603150820"></script>
+  <script>
+    const slides = window.AI_TALKING_SLIDES || [];
+    let currentIndex = 0;
+    let showNotes = false;
+    let showOverview = false;
+
+    const elMain = document.getElementById('slideMain');
+    const elTag = document.getElementById('slideTag');
+    const elTagFooter = document.getElementById('slideTagFooter');
+    const elPart = document.getElementById('slidePart');
+    const elProgressText = document.getElementById('slideProgressText');
+    const elProgressFill = document.getElementById('slideProgressFill');
+    const elNotes = document.getElementById('slideNotes');
+    const elOverview = document.getElementById('overview');
+
+    function mapHref(href = '') {
+      if (href === '/') return './index.html';
+      if (href === '/blackboard') return 'https://show-hub-ft.vercel.app/blackboard';
+      return href;
+    }
+
+    function renderOverview() {
+      elOverview.innerHTML = slides
+        .map((s, i) => `
+          <button class="ai-overview-item ${i === currentIndex ? 'ai-overview-item-active' : ''}" data-i="${i}">
+            <div class="ai-overview-index">${i + 1}</div>
+            <div class="ai-overview-tag">${s.tag || ''}</div>
+            <div class="ai-overview-title">${s.title || ''}</div>
+          </button>
+        `)
+        .join('');
+
+      elOverview.querySelectorAll('button[data-i]').forEach((btn) => {
+        btn.addEventListener('click', () => {
+          currentIndex = Number(btn.dataset.i || 0);
+          showOverview = false;
+          render();
+        });
+      });
+    }
+
+    function render() {
+      if (!slides.length) {
+        elMain.innerHTML = '<h1 class="ai-slide-title">未加载到 slides 数据</h1>';
+        return;
+      }
+
+      const s = slides[currentIndex];
+      const total = slides.length;
+      const isTitleOnly = !s.bullets && !s.buttons && !s.emphasis && s.id !== 20;
+
+      elTag.textContent = s.tag || '';
+      elTagFooter.textContent = s.tag || '';
+      elPart.textContent = s.part || '';
+      elProgressText.textContent = `${currentIndex + 1} / ${total}`;
+      elProgressFill.style.width = `${((currentIndex + 1) / total) * 100}%`;
+
+      const titleClass = `ai-slide-title ${[0,2,6,9,13,14,18,20].includes(s.id) ? 'ai-slide-title-key' : ''} ${s.id===13 ? 'ai-slide-title-compact' : ''}`;
+      const subtitleClass = `ai-slide-subtitle ${[13,18].includes(s.id) ? 'ai-slide-subtitle-emphasis' : ''}`;
+
+      let html = `<h1 class="${titleClass}">${s.title || ''}</h1>`;
+      if (s.subtitle) html += `<h2 class="${subtitleClass}">${s.subtitle}</h2>`;
+      if (s.bullets && s.bullets.length) {
+        html += '<ul class="ai-slide-bullets">' + s.bullets.map((b) => `<li>${b}</li>`).join('') + '</ul>';
+      }
+      if (s.buttons && s.buttons.length) {
+        html += '<div class="ai-slide-buttons">' + s.buttons.map((b) => {
+          const cls = `ai-slide-button ${b.variant === 'secondary' ? 'secondary' : 'primary'}`;
+          return `<a class="${cls}" href="${mapHref(b.href)}" target="_blank" rel="noreferrer">${b.label}</a>`;
+        }).join('') + '</div>';
+      }
+      if (s.emphasis) html += `<p class="ai-slide-emphasis">${s.emphasis}</p>`;
+
+      elMain.className = 'ai-slide-main' + (isTitleOnly ? ' ai-slide-main-title-only' : '');
+      elMain.innerHTML = html;
+
+      if (showNotes && s.notes) {
+        elNotes.classList.remove('hidden');
+        elNotes.innerHTML = `<div class="ai-slide-notes-label">Speaker Notes</div><p>${s.notes}</p>`;
+      } else {
+        elNotes.classList.add('hidden');
+        elNotes.innerHTML = '';
+      }
+
+      if (showOverview) {
+        elOverview.classList.remove('hidden');
+        renderOverview();
+      } else {
+        elOverview.classList.add('hidden');
+      }
+    }
+
+    function goNext() { if (currentIndex < slides.length - 1) currentIndex += 1; render(); }
+    function goPrev() { if (currentIndex > 0) currentIndex -= 1; render(); }
+
+    window.addEventListener('keydown', (e) => {
+      if (e.key === 'ArrowRight' || e.key === 'PageDown' || e.key === ' ') { e.preventDefault(); goNext(); }
+      if (e.key === 'ArrowLeft' || e.key === 'PageUp') { e.preventDefault(); goPrev(); }
+      if (e.key === 'n' || e.key === 'N') { e.preventDefault(); showNotes = !showNotes; render(); }
+      if (e.key === 'o' || e.key === 'O' || e.key === 'Escape') { e.preventDefault(); showOverview = !showOverview; render(); }
+    });
+
+    let touchStartX = 0;
+    window.addEventListener('touchstart', (e) => { touchStartX = e.changedTouches[0].clientX; }, { passive: true });
+    window.addEventListener('touchend', (e) => {
+      const dx = e.changedTouches[0].clientX - touchStartX;
+      if (Math.abs(dx) > 40) {
+        if (dx < 0) goNext();
+        else goPrev();
+      }
+    }, { passive: true });
+
+    render();
+  </script>
 </body>
 </html>
