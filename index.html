@@ -22,7 +22,21 @@
   <main class="container">
     <section id="posts" class="card">
       <h2>最近文章</h2>
-      <ul id="post-list" class="post-list"></ul>
+      <div class="posts-grid">
+        <div>
+          <ul id="post-list" class="post-list"></ul>
+        </div>
+        <aside class="index-panel">
+          <div class="filter-title">索引筛选</div>
+          <button id="reset-filter" class="btn btn-small">重置筛选</button>
+
+          <h3>按主题标签</h3>
+          <div id="tag-filter" class="chips"></div>
+
+          <h3>按年月</h3>
+          <div id="month-filter" class="chips"></div>
+        </aside>
+      </div>
     </section>
 
     <section id="viewer" class="card hidden">
