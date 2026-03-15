@@ -2,6 +2,7 @@ let posts = [];
 let activeTag = null;
 let activeMonth = null;
 
+const featuredListEl = document.getElementById('featured-list');
 const postListEl = document.getElementById('post-list');
 const tagFilterEl = document.getElementById('tag-filter');
 const monthFilterEl = document.getElementById('month-filter');
@@ -12,6 +13,7 @@ const contentEl = document.getElementById('post-content');
 const backBtn = document.getElementById('back-btn');
 const exportPdfBtn = document.getElementById('export-pdf-btn');
 const wechatBtn = document.getElementById('wechat-btn');
+const summaryBtn = document.getElementById('summary-btn');
 const themeToggleBtn = document.getElementById('theme-toggle');
 const postsSection = document.getElementById('posts');
 
@@ -57,13 +59,30 @@ function filterPosts() {
 
 function renderList() {
   const current = filterPosts();
+  const featured = current.slice(0, 3);
+  const rest = current.slice(3);
 
-  if (!current.length) {
-    postListEl.innerHTML = `<li><div class="post-meta">当前筛选下暂无文章</div></li>`;
+  if (featuredListEl) {
+    featuredListEl.innerHTML = featured.length
+      ? featured
+          .map(
+            (p) => `
+      <li>
+        <a class="post-link" href="#${p.slug}" data-slug="${p.slug}">${p.title}</a>
+        <div class="post-meta">${p.date || ''} · ${(p.tags || []).join(' / ')}</div>
+      </li>
+    `,
+          )
+          .join('')
+      : `<li><div class="post-meta">暂无置顶内容</div></li>`;
+  }
+
+  if (!rest.length) {
+    postListEl.innerHTML = `<li><div class="post-meta">当前筛选下暂无更多文章</div></li>`;
     return;
   }
 
-  postListEl.innerHTML = current
+  postListEl.innerHTML = rest
     .map(
       (p) => `
     <li>
@@ -235,7 +254,7 @@ async function openPost(slug) {
   postsSection.classList.add('hidden');
 }
 
-postListEl.addEventListener('click', (e) => {
+postsSection.addEventListener('click', (e) => {
   const el = e.target.closest('a[data-slug]');
   if (!el) return;
   e.preventDefault();
@@ -296,6 +315,34 @@ if (wechatBtn) {
     const src = `./posts/${slug}.md`;
     const cmd = `node scripts/generate-wechat-article.js --source "${src}" --title "${currentPost.title || slug}"`;
     alert(`请在项目根目录执行:\n\n${cmd}`);
+  });
+}
+
+if (summaryBtn) {
+  summaryBtn.addEventListener('click', async () => {
+    if (!currentPost) return;
+    const slug = currentPost.slug;
+    const src = `./posts/${slug}.md`;
+
+    try {
+      const text = await fetch(src).then((r) => r.text());
+      const lines = text
+        .split(/\r?\n/)
+        .map((s) => s.trim())
+        .filter((s) => s && !s.startsWith('#') && !s.startsWith('@') && !s.startsWith('---'));
+
+      const bullets = lines
+        .slice(0, 30)
+        .filter((s) => !s.startsWith('!['))
+        .slice(0, 3)
+        .map((s, i) => `${i + 1}. ${s.replace(/^[-*+]\s+/, '')}`);
+
+      const output = bullets.length ? bullets.join('\n') : '1. 这篇文章建议补充摘要内容。';
+      navigator.clipboard?.writeText(output).catch(() => {});
+      alert(`已生成3条摘要（并尝试复制到剪贴板）：\n\n${output}`);
+    } catch (e) {
+      alert('摘要生成失败，请稍后重试');
+    }
   });
 }
 
