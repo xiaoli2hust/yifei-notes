@@ -99,11 +99,12 @@ function buildHtml({ slides, deckTitle = 'Slides', outputCss = './slides.css' })
   <link rel="stylesheet" href="${outputCss}" />
 </head>
 <body class="ai-transformation-root">
-  <div class="ai-deck-shell">
+  <div class="ai-deck-shell" id="deckShell">
     <div class="ai-deck-topbar">
       <a href="./index.html" class="back">← 返回 Jerry Notes</a>
       <div class="ai-deck-logo">${escapeHtml(deckTitle)}</div>
-      <div class="ai-deck-shortcuts">←/→ 翻页 · Space 下一页 · N 备注 · O 总览</div>
+      <div class="ai-deck-shortcuts">←/→ 翻页 · Space 下一页 · N 备注 · O 总览 · F 全屏</div>
+      <button id="fullscreenBtn" class="slides-fullscreen-btn" type="button">⤢ 全屏</button>
     </div>
 
     <div id="overview" class="ai-overview-grid hidden"></div>
@@ -146,6 +147,8 @@ function buildHtml({ slides, deckTitle = 'Slides', outputCss = './slides.css' })
     const elProgressFill = document.getElementById('slideProgressFill');
     const elNotes = document.getElementById('slideNotes');
     const elOverview = document.getElementById('overview');
+    const elFullscreenBtn = document.getElementById('fullscreenBtn');
+    const elDeckShell = document.getElementById('deckShell');
 
     function resolveHref(href) {
       if (href === '/') return './index.html';
@@ -216,11 +219,38 @@ function buildHtml({ slides, deckTitle = 'Slides', outputCss = './slides.css' })
     function goNext(){ if(currentIndex < slides.length - 1) currentIndex++; render(); }
     function goPrev(){ if(currentIndex > 0) currentIndex--; render(); }
 
+    function syncFullscreenUi() {
+      const isFs = !!document.fullscreenElement;
+      if (isFs) {
+        elDeckShell.classList.add('is-fullscreen');
+        elFullscreenBtn.textContent = '⤓ 退出全屏';
+      } else {
+        elDeckShell.classList.remove('is-fullscreen');
+        elFullscreenBtn.textContent = '⤢ 全屏';
+      }
+    }
+
+    function toggleFullscreen() {
+      if (!document.fullscreenElement) {
+        if (elDeckShell.requestFullscreen) elDeckShell.requestFullscreen();
+      } else {
+        if (document.exitFullscreen) document.exitFullscreen();
+      }
+    }
+
+    if (elFullscreenBtn) {
+      elFullscreenBtn.addEventListener('click', toggleFullscreen);
+    }
+
+    document.addEventListener('fullscreenchange', syncFullscreenUi);
+
     window.addEventListener('keydown', (e) => {
       if (e.key === 'ArrowRight' || e.key === 'PageDown' || e.key === ' ') { e.preventDefault(); goNext(); }
       if (e.key === 'ArrowLeft' || e.key === 'PageUp') { e.preventDefault(); goPrev(); }
       if (e.key === 'n' || e.key === 'N') { e.preventDefault(); showNotes = !showNotes; render(); }
-      if (e.key === 'o' || e.key === 'O' || e.key === 'Escape') { e.preventDefault(); showOverview = !showOverview; render(); }
+      if (e.key === 'o' || e.key === 'O') { e.preventDefault(); showOverview = !showOverview; render(); }
+      if (e.key === 'f' || e.key === 'F') { e.preventDefault(); toggleFullscreen(); }
+      if (e.key === 'Escape' && !document.fullscreenElement) { e.preventDefault(); showOverview = !showOverview; render(); }
     });
 
     let touchStartX = 0;
@@ -232,6 +262,7 @@ function buildHtml({ slides, deckTitle = 'Slides', outputCss = './slides.css' })
       }
     }, { passive: true });
 
+    syncFullscreenUi();
     render();
   </script>
 </body>
