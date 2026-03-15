@@ -19,8 +19,7 @@
 - 多模态地图理解：从像素到语义的跨越（`posts/multimodal-map-understanding.md`）
 - 开放平台3.0：从API到能力网格（`posts/open-platform-3-0.md`）
 - 共同构建开放有活力的的技术体系（`posts/open-tech-ecosystem.md`）
-- 隐私与合规优先：打造空间数据的安全基建（`posts/privacy-and-compliance.md`）
-- 私网地图：安全与体验的平衡（`posts/private-network-map.md`）
+- 地图安全治理框架：从私网部署到隐私合规（`posts/map-security-governance-framework.md`）
 - 实时空间计算：让数据在流动中产生价值（`posts/realtime-spatial-computing.md`）
 - 场景化运营：从通用地图到行业套件（`posts/scenario-based-operations.md`）
 - 空间智能Lab：从地图到知识图谱（`posts/spatial-intelligence-lab.md`）
@@ -30,9 +29,15 @@
 ## 三、本轮合并记录（第二轮）
 
 - 合并为：`posts/ai-map-experience-framework.md`
-- 原文归并：
-  - `posts/ai-native-map-paradigm.md`
-  - `posts/generative-map-experience.md`
+  - 原文归并：
+    - `posts/ai-native-map-paradigm.md`
+    - `posts/generative-map-experience.md`
+
+- 合并为：`posts/map-security-governance-framework.md`
+  - 原文归并：
+    - `posts/private-network-map.md`
+    - `posts/privacy-and-compliance.md`
+
 - 处理方式：保留原始 MD 文件用于追溯，不在首页索引继续展示。
 
 ## 四、维护规则

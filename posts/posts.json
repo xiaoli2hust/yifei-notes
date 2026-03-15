@@ -1,5 +1,16 @@
 [
   {
+    "title": "地图安全治理框架：从私网部署到隐私合规",
+    "slug": "map-security-governance-framework",
+    "date": "2026-03-15",
+    "tags": [
+      "数据安全",
+      "私有化部署",
+      "隐私合规"
+    ],
+    "type": "note"
+  },
+  {
     "title": "AI 地图体验框架：从范式到落地",
     "slug": "ai-map-experience-framework",
     "date": "2026-03-15",
@@ -103,16 +114,6 @@
     ]
   },
   {
-    "title": "私网地图：安全与体验的平衡",
-    "slug": "private-network-map",
-    "date": "2026-03-14",
-    "tags": [
-      "私有化部署",
-      "行业方案",
-      "安全架构"
-    ]
-  },
-  {
     "title": "为什么先做静态站",
     "slug": "why-static-site",
     "date": "2026-03-14",
@@ -128,16 +129,6 @@
     "tags": [
       "建站实践",
       "个人项目"
-    ]
-  },
-  {
-    "title": "隐私与合规优先：打造空间数据的安全基建",
-    "slug": "privacy-and-compliance",
-    "date": "2026-03-14",
-    "tags": [
-      "数据安全",
-      "隐私合规",
-      "基础设施"
     ]
   },
   {
