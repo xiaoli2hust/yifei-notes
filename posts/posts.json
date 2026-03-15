@@ -4,46 +4,21 @@
     "slug": "ai-transformation",
     "date": "2026-03-15",
     "tags": [
-      "showhub",
-      "webslides"
+      "AI演讲",
+      "组织变革",
+      "产品战略"
     ],
     "type": "webslides",
     "url": "./ai-transformation.html"
   },
   {
-    "title": "AI+ Engineer：从共识到现实的三年进化",
-    "slug": "ai-engineer-evolution",
+    "title": "隐私与合规优先：打造空间数据的安全基建",
+    "slug": "privacy-and-compliance",
     "date": "2026-03-14",
     "tags": [
-      "showhub",
-      "黑板报迁移"
-    ]
-  },
-  {
-    "title": "AI Native 地图范式：重新定义地图体验",
-    "slug": "ai-native-map-paradigm",
-    "date": "2026-03-14",
-    "tags": [
-      "showhub",
-      "黑板报迁移"
-    ]
-  },
-  {
-    "title": "AI+产品：克制才是长期竞争力",
-    "slug": "ai-plus-product",
-    "date": "2026-03-14",
-    "tags": [
-      "showhub",
-      "黑板报迁移"
-    ]
-  },
-  {
-    "title": "数据工厂：从手工作坊到自动化流水线",
-    "slug": "data-factory",
-    "date": "2026-03-14",
-    "tags": [
-      "showhub",
-      "黑板报迁移"
+      "数据安全",
+      "隐私合规",
+      "基础设施"
     ]
   },
   {
@@ -51,98 +26,9 @@
     "slug": "edge-native-rendering",
     "date": "2026-03-14",
     "tags": [
-      "showhub",
-      "黑板报迁移"
-    ]
-  },
-  {
-    "title": "我的个人站上线了（第一版）",
-    "slug": "first-post",
-    "date": "2026-03-14",
-    "tags": [
-      "建站",
-      "记录"
-    ]
-  },
-  {
-    "title": "生成式地图体验：用自然语言编排地图场景",
-    "slug": "generative-map-experience",
-    "date": "2026-03-14",
-    "tags": [
-      "showhub",
-      "黑板报迁移"
-    ]
-  },
-  {
-    "title": "GTC2026空间智能机会",
-    "slug": "gtc-spatial-intelligence-opportunity",
-    "date": "2026-03-14",
-    "tags": [
-      "showhub",
-      "黑板报迁移"
-    ]
-  },
-  {
-    "title": "多模态地图理解：从像素到语义的跨越",
-    "slug": "multimodal-map-understanding",
-    "date": "2026-03-14",
-    "tags": [
-      "showhub",
-      "黑板报迁移"
-    ]
-  },
-  {
-    "title": "开放平台3.0：从API到能力网格",
-    "slug": "open-platform-3-0",
-    "date": "2026-03-14",
-    "tags": [
-      "showhub",
-      "黑板报迁移"
-    ]
-  },
-  {
-    "title": "共同构建开放有活力的的技术体系",
-    "slug": "open-tech-ecosystem",
-    "date": "2026-03-14",
-    "tags": [
-      "黑板报",
-      "迁移"
-    ]
-  },
-  {
-    "title": "隐私与合规优先：打造空间数据的安全基建",
-    "slug": "privacy-and-compliance",
-    "date": "2026-03-14",
-    "tags": [
-      "showhub",
-      "黑板报迁移"
-    ]
-  },
-  {
-    "title": "私网地图：安全与体验的平衡",
-    "slug": "private-network-map",
-    "date": "2026-03-14",
-    "tags": [
-      "showhub",
-      "黑板报迁移"
-    ]
-  },
-  {
-    "title": "实时空间计算：让数据在流动中产生价值",
-    "slug": "realtime-spatial-computing",
-    "date": "2026-03-14",
-    "tags": [
-      "showhub",
-      "黑板报迁移"
-    ]
-  },
-  {
-    "title": "场景化运营：从通用地图到行业套件",
-    "slug": "scenario-based-operations",
-    "date": "2026-03-14",
-    "tags": [
-      "showhub",
-      "黑板报迁移"
+      "地图引擎",
+      "边缘计算",
+      "性能优化"
     ]
   },
   {
@@ -150,8 +36,98 @@
     "slug": "spatial-intelligence-lab",
     "date": "2026-03-14",
     "tags": [
-      "showhub",
-      "黑板报迁移"
+      "空间智能",
+      "知识图谱",
+      "应用探索"
+    ]
+  },
+  {
+    "title": "私网地图：安全与体验的平衡",
+    "slug": "private-network-map",
+    "date": "2026-03-14",
+    "tags": [
+      "私有化部署",
+      "行业方案",
+      "安全架构"
+    ]
+  },
+  {
+    "title": "生成式地图体验：用自然语言编排地图场景",
+    "slug": "generative-map-experience",
+    "date": "2026-03-14",
+    "tags": [
+      "地图产品",
+      "生成式AI",
+      "用户体验"
+    ]
+  },
+  {
+    "title": "数据工厂：从手工作坊到自动化流水线",
+    "slug": "data-factory",
+    "date": "2026-03-14",
+    "tags": [
+      "数据工程",
+      "自动化",
+      "质量体系"
+    ]
+  },
+  {
+    "title": "我的个人站上线了（第一版）",
+    "slug": "first-post",
+    "date": "2026-03-14",
+    "tags": [
+      "建站实践",
+      "个人项目"
+    ]
+  },
+  {
+    "title": "开放平台3.0：从API到能力网格",
+    "slug": "open-platform-3-0",
+    "date": "2026-03-14",
+    "tags": [
+      "平台架构",
+      "API设计",
+      "工程实践"
+    ]
+  },
+  {
+    "title": "实时空间计算：让数据在流动中产生价值",
+    "slug": "realtime-spatial-computing",
+    "date": "2026-03-14",
+    "tags": [
+      "实时计算",
+      "时空数据",
+      "系统架构"
+    ]
+  },
+  {
+    "title": "多模态地图理解：从像素到语义的跨越",
+    "slug": "multimodal-map-understanding",
+    "date": "2026-03-14",
+    "tags": [
+      "多模态AI",
+      "地图数据",
+      "模型应用"
+    ]
+  },
+  {
+    "title": "场景化运营：从通用地图到行业套件",
+    "slug": "scenario-based-operations",
+    "date": "2026-03-14",
+    "tags": [
+      "行业解决方案",
+      "产品运营",
+      "业务场景"
+    ]
+  },
+  {
+    "title": "共同构建开放有活力的的技术体系",
+    "slug": "open-tech-ecosystem",
+    "date": "2026-03-14",
+    "tags": [
+      "技术文化",
+      "组织协作",
+      "开放生态"
     ]
   },
   {
@@ -159,8 +135,48 @@
     "slug": "why-static-site",
     "date": "2026-03-14",
     "tags": [
-      "架构",
-      "效率"
+      "建站实践",
+      "架构选择"
+    ]
+  },
+  {
+    "title": "GTC2026空间智能机会",
+    "slug": "gtc-spatial-intelligence-opportunity",
+    "date": "2026-03-14",
+    "tags": [
+      "空间智能",
+      "技术趋势",
+      "战略分析"
+    ]
+  },
+  {
+    "title": "AI+产品：克制才是长期竞争力",
+    "slug": "ai-plus-product",
+    "date": "2026-03-14",
+    "tags": [
+      "产品战略",
+      "AI治理",
+      "方法论"
+    ]
+  },
+  {
+    "title": "AI+ Engineer：从共识到现实的三年进化",
+    "slug": "ai-engineer-evolution",
+    "date": "2026-03-14",
+    "tags": [
+      "AI工程",
+      "组织变革",
+      "技术趋势"
+    ]
+  },
+  {
+    "title": "AI Native 地图范式：重新定义地图体验",
+    "slug": "ai-native-map-paradigm",
+    "date": "2026-03-14",
+    "tags": [
+      "地图产品",
+      "AI体验",
+      "交互设计"
     ]
   }
 ]
