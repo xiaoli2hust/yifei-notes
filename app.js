@@ -59,16 +59,14 @@ function renderList() {
   }
 
   postListEl.innerHTML = current
-    .map((p) => {
-      const href = p.type === 'webslides' && p.url ? p.url : `#${p.slug}`;
-      const attrs = p.type === 'webslides' ? '' : `data-slug="${p.slug}"`;
-      return `
+    .map(
+      (p) => `
     <li>
-      <a class="post-link" href="${href}" ${attrs}>${p.title}</a>
+      <a class="post-link" href="#${p.slug}" data-slug="${p.slug}">${p.title}</a>
       <div class="post-meta">${p.date || ''} · ${(p.tags || []).join(' / ')}</div>
     </li>
-  `;
-    })
+  `,
+    )
     .join('');
 }
 
@@ -207,12 +205,28 @@ function mdToHtml(mdRaw = '') {
   return html.join('\n');
 }
 
+function renderEmbeddedSlideDeck(slug, target) {
+  const src = target.url || `./${slug}.html`;
+  contentEl.innerHTML = `
+    <div class="slide-embed-wrap">
+      <div class="slide-embed-toolbar">
+        <a class="btn btn-small" href="${src}" target="_blank" rel="noreferrer">打开独立页面</a>
+      </div>
+      <iframe class="slide-embed-iframe" src="${src}" title="${target.title || slug}" loading="lazy"></iframe>
+    </div>
+  `;
+}
+
 async function openPost(slug) {
   const target = posts.find((p) => p.slug === slug);
   if (!target) return;
 
-  const text = await fetch(`./posts/${slug}.md`).then((r) => r.text());
-  contentEl.innerHTML = mdToHtml(text);
+  if (target.type === 'webslides') {
+    renderEmbeddedSlideDeck(slug, target);
+  } else {
+    const text = await fetch(`./posts/${slug}.md`).then((r) => r.text());
+    contentEl.innerHTML = mdToHtml(text);
+  }
 
   viewer.classList.remove('hidden');
   postsSection.classList.add('hidden');

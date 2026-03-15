@@ -143,6 +143,25 @@ body {
 .markdown-body a:hover {
   color: #a7cbff;
 }
+
+.slide-embed-wrap {
+  display: grid;
+  gap: 10px;
+}
+
+.slide-embed-toolbar {
+  display: flex;
+  justify-content: flex-end;
+}
+
+.slide-embed-iframe {
+  width: 100%;
+  aspect-ratio: 16 / 9;
+  border: 1px solid var(--border);
+  border-radius: 12px;
+  background: #0a1020;
+}
+
 .posts-grid {
   display: grid;
   grid-template-columns: minmax(0, 1fr) 290px;
