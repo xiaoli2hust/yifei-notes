@@ -12,6 +12,7 @@ const contentEl = document.getElementById('post-content');
 const backBtn = document.getElementById('back-btn');
 const exportPdfBtn = document.getElementById('export-pdf-btn');
 const wechatBtn = document.getElementById('wechat-btn');
+const themeToggleBtn = document.getElementById('theme-toggle');
 const postsSection = document.getElementById('posts');
 
 let currentPost = null;
@@ -298,6 +299,53 @@ if (wechatBtn) {
   });
 }
 
+const THEME_KEY = 'jerry-notes-theme';
+const THEME_AUTO = 'auto';
+const THEME_LIGHT = 'light';
+const THEME_DARK = 'dark';
+
+function getSunTimesLikeMode(date = new Date()) {
+  const month = date.getMonth() + 1;
+  const hour = date.getHours();
+  const sunrise = month >= 4 && month <= 9 ? 5 : 6;
+  const sunset = month >= 4 && month <= 9 ? 19 : 18;
+  return hour >= sunrise && hour < sunset ? THEME_LIGHT : THEME_DARK;
+}
+
+function applyTheme(mode) {
+  const real = mode === THEME_AUTO ? getSunTimesLikeMode() : mode;
+  document.body.setAttribute('data-theme', real);
+  if (themeToggleBtn) {
+    const map = {
+      [THEME_AUTO]: '主题：自动',
+      [THEME_LIGHT]: '主题：白天',
+      [THEME_DARK]: '主题：黑夜',
+    };
+    themeToggleBtn.textContent = map[mode] || '主题：自动';
+  }
+}
+
+function initTheme() {
+  let mode = localStorage.getItem(THEME_KEY) || THEME_AUTO;
+  applyTheme(mode);
+
+  if (themeToggleBtn) {
+    themeToggleBtn.addEventListener('click', () => {
+      const order = [THEME_AUTO, THEME_LIGHT, THEME_DARK];
+      const cur = localStorage.getItem(THEME_KEY) || THEME_AUTO;
+      const idx = order.indexOf(cur);
+      const next = order[(idx + 1) % order.length];
+      localStorage.setItem(THEME_KEY, next);
+      applyTheme(next);
+    });
+  }
+
+  setInterval(() => {
+    const current = localStorage.getItem(THEME_KEY) || THEME_AUTO;
+    if (current === THEME_AUTO) applyTheme(THEME_AUTO);
+  }, 60000);
+}
+
 async function bootstrap() {
   try {
     const data = await fetch('./posts/posts.json').then((r) => r.json());
@@ -307,6 +355,7 @@ async function bootstrap() {
     posts = [];
   }
 
+  initTheme();
   renderFilters();
   renderList();
 
