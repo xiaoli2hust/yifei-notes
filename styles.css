@@ -18,6 +18,58 @@ body[data-theme='light'] {
   --header-bg: rgba(255,255,255,0.45);
 }
 
+body[data-theme='light'] .card {
+  background: #ffffff;
+}
+
+body[data-theme='light'] .post-link {
+  color: #1c2f52;
+}
+
+body[data-theme='light'] .btn {
+  background: #edf3ff;
+  color: #1f2a3d;
+}
+
+body[data-theme='light'] .markdown-body {
+  color: #27344d;
+}
+
+body[data-theme='light'] .markdown-body h1,
+body[data-theme='light'] .markdown-body h2,
+body[data-theme='light'] .markdown-body h3,
+body[data-theme='light'] .markdown-body h4 {
+  color: #13233d;
+}
+
+body[data-theme='light'] .markdown-body blockquote {
+  background: #f2f6ff;
+  color: #354968;
+}
+
+body[data-theme='light'] .markdown-body pre {
+  background: #f5f8ff;
+}
+
+body[data-theme='light'] .index-panel {
+  background: #f7faff;
+}
+
+body[data-theme='light'] .index-panel h3 {
+  color: #465f87;
+}
+
+body[data-theme='light'] .chip {
+  background: #eef3ff;
+  color: #38527c;
+}
+
+body[data-theme='light'] .chip.active {
+  background: #2f73ff;
+  border-color: #2f73ff;
+  color: #fff;
+}
+
 * { box-sizing: border-box; }
 body {
   margin: 0;
@@ -207,6 +259,11 @@ body {
   border-radius: 12px;
   background: #0a1020;
   overflow: hidden;
+  scrollbar-width: none;
+}
+
+.slide-embed-iframe::-webkit-scrollbar {
+  display: none;
 }
 
 .posts-grid {

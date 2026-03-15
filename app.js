@@ -347,50 +347,29 @@ if (summaryBtn) {
 }
 
 const THEME_KEY = 'jerry-notes-theme';
-const THEME_AUTO = 'auto';
 const THEME_LIGHT = 'light';
 const THEME_DARK = 'dark';
 
-function getSunTimesLikeMode(date = new Date()) {
-  const month = date.getMonth() + 1;
-  const hour = date.getHours();
-  const sunrise = month >= 4 && month <= 9 ? 5 : 6;
-  const sunset = month >= 4 && month <= 9 ? 19 : 18;
-  return hour >= sunrise && hour < sunset ? THEME_LIGHT : THEME_DARK;
-}
-
 function applyTheme(mode) {
-  const real = mode === THEME_AUTO ? getSunTimesLikeMode() : mode;
+  const real = mode === THEME_LIGHT ? THEME_LIGHT : THEME_DARK;
   document.body.setAttribute('data-theme', real);
   if (themeToggleBtn) {
-    const map = {
-      [THEME_AUTO]: '主题：自动',
-      [THEME_LIGHT]: '主题：白天',
-      [THEME_DARK]: '主题：黑夜',
-    };
-    themeToggleBtn.textContent = map[mode] || '主题：自动';
+    themeToggleBtn.textContent = real === THEME_LIGHT ? '主题：白天' : '主题：黑夜';
   }
 }
 
 function initTheme() {
-  let mode = localStorage.getItem(THEME_KEY) || THEME_AUTO;
+  const mode = localStorage.getItem(THEME_KEY) || THEME_DARK;
   applyTheme(mode);
 
   if (themeToggleBtn) {
     themeToggleBtn.addEventListener('click', () => {
-      const order = [THEME_AUTO, THEME_LIGHT, THEME_DARK];
-      const cur = localStorage.getItem(THEME_KEY) || THEME_AUTO;
-      const idx = order.indexOf(cur);
-      const next = order[(idx + 1) % order.length];
+      const cur = localStorage.getItem(THEME_KEY) || THEME_DARK;
+      const next = cur === THEME_DARK ? THEME_LIGHT : THEME_DARK;
       localStorage.setItem(THEME_KEY, next);
       applyTheme(next);
     });
   }
-
-  setInterval(() => {
-    const current = localStorage.getItem(THEME_KEY) || THEME_AUTO;
-    if (current === THEME_AUTO) applyTheme(THEME_AUTO);
-  }, 60000);
 }
 
 async function bootstrap() {
