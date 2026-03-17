@@ -7,7 +7,7 @@ tags:
   - 软硬件一体
   - G1
   - 方案
-type: note
+type: webslides
 ---
 
 # 北京情指客户交流方案（软硬件一体，面向G1总体规划）
