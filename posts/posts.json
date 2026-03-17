@@ -12,6 +12,19 @@
     "type": "note"
   },
   {
+    "title": "2026-W12 周报（统一标准版）",
+    "slug": "2026-w12-weekly-report",
+    "date": "2026-03-16",
+    "tags": [
+      "周报",
+      "webslides",
+      "管理",
+      "团队协作"
+    ],
+    "type": "webslides",
+    "url": "./2026-w12-weekly-report.html"
+  },
+  {
     "title": "公司级 AI 专项周汇报（6页浓缩增强版）",
     "slug": "company-ai-weekly-report",
     "date": "2026-03-15",
@@ -177,6 +190,17 @@
       "空间智能",
       "技术趋势",
       "战略分析"
+    ]
+  },
+  {
+    "title": "G1产研相关项目现状总览（v1）",
+    "slug": "g1-tianshu-status-v1",
+    "date": "2026-03-17",
+    "tags": [
+      "天枢项目",
+      "G1",
+      "项目管理",
+      "地图智能体"
     ]
   }
 ]
