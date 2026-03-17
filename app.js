@@ -263,7 +263,13 @@ function renderEmbeddedSlideDeck(slug, target) {
   `;
 }
 
-async function openPost(slug) {
+function closePost() {
+  viewer.classList.add('hidden');
+  postsSection.classList.remove('hidden');
+  currentPost = null;
+}
+
+async function openPost(slug, { updateHistory = true } = {}) {
   const target = posts.find((p) => p.slug === slug);
   if (!target) return;
   currentPost = target;
@@ -277,6 +283,10 @@ async function openPost(slug) {
 
   viewer.classList.remove('hidden');
   postsSection.classList.add('hidden');
+
+  if (updateHistory) {
+    history.pushState({ type: 'post', slug }, '', `#${slug}`);
+  }
 }
 
 postsSection.addEventListener('click', (e) => {
@@ -318,8 +328,20 @@ if (resetFilterBtn) {
 }
 
 backBtn.addEventListener('click', () => {
-  viewer.classList.add('hidden');
-  postsSection.classList.remove('hidden');
+  if (location.hash) {
+    history.back();
+  } else {
+    closePost();
+  }
+});
+
+window.addEventListener('popstate', () => {
+  const slug = location.hash.replace('#', '');
+  if (slug) {
+    openPost(slug, { updateHistory: false });
+  } else {
+    closePost();
+  }
 });
 
 if (exportPdfBtn) {
@@ -411,7 +433,9 @@ async function bootstrap() {
   renderList();
 
   if (location.hash) {
-    openPost(location.hash.replace('#', ''));
+    openPost(location.hash.replace('#', ''), { updateHistory: false });
+  } else {
+    history.replaceState({ type: 'list' }, '', location.pathname + location.search);
   }
 }
 
