@@ -322,6 +322,14 @@ body {
   background: #0f172b;
 }
 
+body.viewing-post .main-layout {
+  grid-template-columns: minmax(0, 1fr);
+}
+
+body.viewing-post .index-panel {
+  display: none;
+}
+
 .index-panel h3 {
   margin: 14px 0 10px;
   font-size: 14px;

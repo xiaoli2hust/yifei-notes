@@ -266,6 +266,7 @@ function renderEmbeddedSlideDeck(slug, target) {
 function closePost() {
   viewer.classList.add('hidden');
   postsSection.classList.remove('hidden');
+  document.body.classList.remove('viewing-post');
   currentPost = null;
 }
 
@@ -283,6 +284,7 @@ async function openPost(slug, { updateHistory = true } = {}) {
 
   viewer.classList.remove('hidden');
   postsSection.classList.add('hidden');
+  document.body.classList.add('viewing-post');
 
   if (updateHistory) {
     history.pushState({ type: 'post', slug }, '', `#${slug}`);
