@@ -119,6 +119,14 @@ function mdToHtml(mdRaw = '') {
   let inOl = false;
   let para = [];
 
+  const isTableSep = (line = '') => /^\s*\|?\s*:?-{3,}:?\s*(\|\s*:?-{3,}:?\s*)+\|?\s*$/.test(line);
+  const splitTableRow = (line = '') => {
+    let row = line.trim();
+    if (row.startsWith('|')) row = row.slice(1);
+    if (row.endsWith('|')) row = row.slice(0, -1);
+    return row.split('|').map((c) => c.trim());
+  };
+
   const flushPara = () => {
     if (para.length) {
       html.push(`<p>${parseInline(para.join('<br/>'))}</p>`);
@@ -137,7 +145,9 @@ function mdToHtml(mdRaw = '') {
     }
   };
 
-  for (const line of lines) {
+  for (let i = 0; i < lines.length; i += 1) {
+    const line = lines[i];
+
     if (line.trim().startsWith('```')) {
       flushPara();
       closeLists();
@@ -171,6 +181,33 @@ function mdToHtml(mdRaw = '') {
       closeLists();
       const level = heading[1].length;
       html.push(`<h${level}>${parseInline(heading[2])}</h${level}>`);
+      continue;
+    }
+
+    // markdown table support
+    if (line.includes('|') && i + 1 < lines.length && isTableSep(lines[i + 1])) {
+      flushPara();
+      closeLists();
+
+      const headers = splitTableRow(line);
+      html.push('<div class="table-wrap"><table class="md-table"><thead><tr>');
+      headers.forEach((h) => html.push(`<th>${parseInline(h)}</th>`));
+      html.push('</tr></thead><tbody>');
+
+      i += 2; // skip header + separator
+      while (i < lines.length) {
+        const rowLine = lines[i];
+        if (!rowLine || !rowLine.includes('|') || /^\s*$/.test(rowLine)) {
+          i -= 1;
+          break;
+        }
+        const cols = splitTableRow(rowLine);
+        html.push('<tr>');
+        cols.forEach((c) => html.push(`<td>${parseInline(c)}</td>`));
+        html.push('</tr>');
+        i += 1;
+      }
+      html.push('</tbody></table></div>');
       continue;
     }
 

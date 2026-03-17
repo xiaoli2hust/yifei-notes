@@ -228,6 +228,42 @@ body {
   color: #a7cbff;
 }
 
+.table-wrap {
+  width: 100%;
+  overflow-x: auto;
+  margin: 0.8em 0 1.1em;
+  border: 1px solid var(--border);
+  border-radius: 10px;
+}
+
+.md-table {
+  width: 100%;
+  min-width: 860px;
+  border-collapse: collapse;
+  font-size: 14px;
+  line-height: 1.6;
+}
+
+.md-table thead th {
+  position: sticky;
+  top: 0;
+  background: #13203a;
+  color: #dfe9ff;
+  font-weight: 700;
+}
+
+.md-table th,
+.md-table td {
+  border-bottom: 1px solid var(--border);
+  padding: 8px 10px;
+  text-align: left;
+  vertical-align: top;
+}
+
+.md-table tbody tr:nth-child(2n) {
+  background: rgba(134, 182, 255, 0.04);
+}
+
 .viewer-toolbar {
   display: flex;
   justify-content: space-between;
