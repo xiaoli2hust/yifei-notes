@@ -2,7 +2,6 @@ let posts = [];
 let activeTag = null;
 let activeMonth = null;
 
-const featuredListEl = document.getElementById('featured-list');
 const postListEl = document.getElementById('post-list');
 const tagFilterEl = document.getElementById('tag-filter');
 const monthFilterEl = document.getElementById('month-filter');
@@ -59,30 +58,13 @@ function filterPosts() {
 
 function renderList() {
   const current = filterPosts();
-  const featured = current.slice(0, 3);
-  const rest = current.slice(3);
 
-  if (featuredListEl) {
-    featuredListEl.innerHTML = featured.length
-      ? featured
-          .map(
-            (p) => `
-      <li>
-        <a class="post-link" href="#${p.slug}" data-slug="${p.slug}">${p.title}</a>
-        <div class="post-meta">${p.date || ''} · ${(p.tags || []).join(' / ')}</div>
-      </li>
-    `,
-          )
-          .join('')
-      : `<li><div class="post-meta">暂无置顶内容</div></li>`;
-  }
-
-  if (!rest.length) {
-    postListEl.innerHTML = `<li><div class="post-meta">当前筛选下暂无更多文章</div></li>`;
+  if (!current.length) {
+    postListEl.innerHTML = `<li><div class="post-meta">当前筛选下暂无文章</div></li>`;
     return;
   }
 
-  postListEl.innerHTML = rest
+  postListEl.innerHTML = current
     .map(
       (p) => `
     <li>
