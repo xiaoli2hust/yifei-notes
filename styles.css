@@ -357,21 +357,23 @@ body.viewing-post .index-panel {
   display: none;
 }
 
-/* 文章阅读区收窄为约当前宽度的 2/3，提高聚焦阅读体验 */
-body.viewing-post #viewer {
+/* 仅在表格场景下收窄阅读区（正常文章保持原比例） */
+body.viewing-post .markdown-body .table-wrap {
   width: min(66vw, 980px);
-  margin: 0 auto;
+  max-width: 100%;
+  margin-left: auto;
+  margin-right: auto;
 }
 
-/* 收窄时表格改为可换行布局，避免横向撑开 */
-body.viewing-post .md-table {
+/* 表格区域可换行，避免横向撑开 */
+body.viewing-post .markdown-body .table-wrap .md-table {
   width: 100%;
   min-width: 0;
   table-layout: fixed;
 }
 
-body.viewing-post .md-table th,
-body.viewing-post .md-table td {
+body.viewing-post .markdown-body .table-wrap .md-table th,
+body.viewing-post .markdown-body .table-wrap .md-table td {
   white-space: normal;
   word-break: break-word;
 }
