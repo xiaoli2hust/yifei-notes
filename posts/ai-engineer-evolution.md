@@ -2,9 +2,8 @@
 title: AI+ Engineer：从共识到现实的三年进化
 date: 2026-03-14
 tags:
-  - AI工程
-  - 组织变革
-  - 技术趋势
+  - AI战略与转型
+  - 组织与管理
 ---
 # AI+ Engineer：从共识到现实的三年进化
 

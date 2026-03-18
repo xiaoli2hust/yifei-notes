@@ -2,9 +2,9 @@
 title: AI Talking
 date: 2026-03-15
 tags:
-  - AI演讲
-  - 组织变革
-  - 产品战略
+  - AI战略与转型
+  - 组织与管理
+  - 产品与体验
 type: webslides
 ---
 

@@ -2,10 +2,9 @@
 title: 聚合数据 API 全量目录（CSV转Markdown表格）
 date: 2026-03-17
 tags:
-  - 聚合数据
-  - API目录
-  - Markdown表格
-  - 数据盘点
+  - 数据与智能
+  - 平台与架构
+  - 报告与盘点
 ---
 # 聚合数据 API 全量目录（CSV转Markdown表格）
 
