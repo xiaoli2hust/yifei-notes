@@ -2,6 +2,160 @@ let posts = [];
 let activeTag = null;
 let activeMonth = null;
 
+// 固定标签体系（最多 12 个）
+const FIXED_TAGS = [
+  'AI战略与转型',
+  '组织与管理',
+  '研发效能',
+  '产品与体验',
+  '数据与智能',
+  '平台与架构',
+  '工程实践',
+  '安全与合规',
+  '空间智能',
+  '行业与场景',
+  '项目与交付',
+  '报告与盘点',
+];
+
+const TAG_ALIAS_MAP = {
+  // AI 与战略
+  AI专项: 'AI战略与转型',
+  AI演讲: 'AI战略与转型',
+  组织转型: 'AI战略与转型',
+  决策智能: 'AI战略与转型',
+  技术趋势: 'AI战略与转型',
+  战略分析: 'AI战略与转型',
+  AI工程: 'AI战略与转型',
+  AI治理: 'AI战略与转型',
+  丰图: 'AI战略与转型',
+
+  // 组织与管理
+  组织分析: '组织与管理',
+  研发管理: '组织与管理',
+  项目管理: '组织与管理',
+  组织变革: '组织与管理',
+  技术文化: '组织与管理',
+  组织协作: '组织与管理',
+  经营管理: '组织与管理',
+  项目治理: '组织与管理',
+
+  // 研发效能
+  代码仓盘点: '研发效能',
+  代码分析: '研发效能',
+  质量体系: '研发效能',
+
+  // 产品与体验
+  地图产品: '产品与体验',
+  AI体验: '产品与体验',
+  场景编排: '产品与体验',
+  产品战略: '产品与体验',
+  产品运营: '产品与体验',
+  方法论: '产品与体验',
+
+  // 数据与智能
+  数据工厂: '数据与智能',
+  多模态AI: '数据与智能',
+  模型应用: '数据与智能',
+  数据工程: '数据与智能',
+  聚合数据: '数据与智能',
+  地图数据: '数据与智能',
+  知识图谱: '数据与智能',
+  时空数据: '数据与智能',
+
+  // 平台与架构
+  开放生态: '平台与架构',
+  开放平台: '平台与架构',
+  API目录: '平台与架构',
+  API设计: '平台与架构',
+  系统架构: '平台与架构',
+
+  // 工程实践
+  边缘计算: '工程实践',
+  性能优化: '工程实践',
+  实时计算: '工程实践',
+  自动化: '工程实践',
+
+  // 安全与合规
+  数据安全: '安全与合规',
+  私有化部署: '安全与合规',
+  隐私合规: '安全与合规',
+
+  // 空间智能
+  地图智能体: '空间智能',
+  天枢: '空间智能',
+
+  // 行业与场景
+  行业解决方案: '行业与场景',
+  业务场景: '行业与场景',
+  应用探索: '行业与场景',
+  北京: '行业与场景',
+  北京经开区: '行业与场景',
+  产业服务: '行业与场景',
+  情指: '行业与场景',
+  顺丰: '行业与场景',
+  招商局: '行业与场景',
+  方案: '行业与场景',
+  软硬件一体: '行业与场景',
+
+  // 项目与交付
+  天枢项目: '项目与交付',
+  G1: '项目与交付',
+
+  // 报告与盘点
+  周报汇报: '报告与盘点',
+  数据盘点: '报告与盘点',
+  CSV: '报告与盘点',
+  Markdown: '报告与盘点',
+};
+
+const TAG_RULES = [
+  { keys: ['周报', '汇报', '目录', '盘点', 'report', 'summary', 'catalog'], tag: '报告与盘点' },
+  { keys: ['repo', '代码仓', '效能', 'commit', '提交'], tag: '研发效能' },
+  { keys: ['g1', '天枢', '交付', '项目'], tag: '项目与交付' },
+  { keys: ['安全', '合规', '隐私', '私网'], tag: '安全与合规' },
+  { keys: ['空间智能'], tag: '空间智能' },
+  { keys: ['地图', '体验', '产品'], tag: '产品与体验' },
+  { keys: ['平台', 'api', '架构'], tag: '平台与架构' },
+  { keys: ['数据', '知识图谱', '多模态'], tag: '数据与智能' },
+  { keys: ['组织', '管理', '变革'], tag: '组织与管理' },
+  { keys: ['实时', '边缘', '自动化', '工程'], tag: '工程实践' },
+  { keys: ['场景', '行业', '招商', '经开区'], tag: '行业与场景' },
+  { keys: ['ai', '智能体'], tag: 'AI战略与转型' },
+];
+
+function normalizePostTags(post = {}) {
+  const normalized = [];
+  const sourceTags = Array.isArray(post.tags) ? post.tags : [];
+
+  sourceTags.forEach((tag) => {
+    if (FIXED_TAGS.includes(tag)) {
+      if (!normalized.includes(tag)) normalized.push(tag);
+      return;
+    }
+    const mapped = TAG_ALIAS_MAP[tag];
+    if (mapped && !normalized.includes(mapped)) normalized.push(mapped);
+  });
+
+  const hintText = `${post.title || ''} ${post.slug || ''}`.toLowerCase();
+  TAG_RULES.forEach(({ keys, tag }) => {
+    const matched = keys.some((k) => hintText.includes(String(k).toLowerCase()));
+    if (matched && !normalized.includes(tag)) normalized.push(tag);
+  });
+
+  if (!normalized.length) normalized.push('报告与盘点');
+
+  // 保持固定顺序，并限制每篇最多 3 个标签
+  return FIXED_TAGS.filter((t) => normalized.includes(t)).slice(0, 3);
+}
+
+function normalizePosts(raw = []) {
+  return (Array.isArray(raw) ? raw : []).map((post) => ({
+    ...post,
+    tags: normalizePostTags(post),
+  }));
+}
+
 const postListEl = document.getElementById('post-list');
 const tagFilterEl = document.getElementById('tag-filter');
 const monthFilterEl = document.getElementById('month-filter');
@@ -36,7 +190,8 @@ function toMonth(dateStr = '') {
 function getAllTags(list) {
   const set = new Set();
   list.forEach((p) => (p.tags || []).forEach((t) => set.add(t)));
-  return Array.from(set);
+  // 永远按固定标签顺序展示，保证数量与顺序稳定
+  return FIXED_TAGS.filter((tag) => set.has(tag));
 }
 
 function getAllMonths(list) {
@@ -424,7 +579,7 @@ function initTheme() {
 async function bootstrap() {
   try {
     const data = await fetch('./posts/posts.json').then((r) => r.json());
-    posts = data;
+    posts = normalizePosts(data);
   } catch (e) {
     console.warn('failed to load posts.json, fallback to empty list', e);
     posts = [];
