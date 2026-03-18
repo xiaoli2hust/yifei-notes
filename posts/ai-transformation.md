@@ -10,14 +10,6 @@ type: webslides
 
 # AI 时代，我们正在被重新定义
 
-> 这个文件是 AI Talking 的可维护 MD 源稿（用于本地编辑，再生成 webslides）。
-
-> 生成命令：`node scripts/md-to-slides.js posts/ai-talking.md ai-transformation.html "AI Talking"`
-
----
-
-# AI 时代，我们正在被重新定义
-
 @tag: 丰图 AI · Annual Talk
 @part: Intro
 @subtitle: 我与 AI · 大家与 AI · 产品与 AI
