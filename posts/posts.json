@@ -1,5 +1,17 @@
 [
   {
+    "title": "CTO今日工作预告（2026-03-19）",
+    "slug": "cto-daily-plan-2026-03-19",
+    "date": "2026-03-19",
+    "datetime": "2026-03-19 07:51:38",
+    "tags": [
+      "组织与管理",
+      "项目与交付",
+      "平台与架构",
+      "AI战略与转型"
+    ]
+  },
+  {
     "title": "企服产品经理团队 AI 分享（宣讲版）",
     "slug": "enterprise-product-ai-sharing-2026-03-18-slides",
     "date": "2026-03-18",
@@ -22,8 +34,8 @@
     ]
   },
   {
-    "title": "AI转型会议纪要（可编辑版）",
-    "slug": "ai-transformation-meeting-minutes-2026-03-18-editable",
+    "title": "今日工作计划（2026-03-18）",
+    "slug": "daily-work-brief-2026-03-18",
     "date": "2026-03-18",
     "tags": [
       "组织与管理",
@@ -42,8 +54,8 @@
     ]
   },
   {
-    "title": "今日工作计划（2026-03-18）",
-    "slug": "daily-work-brief-2026-03-18",
+    "title": "AI转型会议纪要（可编辑版）",
+    "slug": "ai-transformation-meeting-minutes-2026-03-18-editable",
     "date": "2026-03-18",
     "tags": [
       "组织与管理",
@@ -52,23 +64,23 @@
     ]
   },
   {
-    "title": "丰图代码仓人员工作分析（汇总版）",
-    "slug": "fengtu-people-work-summary",
+    "title": "聚合数据 API 全量目录（美化版）",
+    "slug": "juhe-api-catalog-full-md",
     "date": "2026-03-17",
     "tags": [
-      "组织与管理",
-      "研发效能",
+      "数据与智能",
+      "平台与架构",
       "报告与盘点"
     ]
   },
   {
-    "title": "丰图代码仓人员工作分析（按最近提交）",
-    "slug": "fengtu-repo-people-work-analysis-2026-03-17",
+    "title": "聚合数据 API 全量目录（CSV转Markdown表格）",
+    "slug": "juhe-api-catalog-full-csv",
     "date": "2026-03-17",
     "tags": [
-      "AI战略与转型",
-      "组织与管理",
-      "研发效能"
+      "数据与智能",
+      "平台与架构",
+      "报告与盘点"
     ]
   },
   {
@@ -82,54 +94,63 @@
     ]
   },
   {
-    "title": "聚合数据 API 全量目录（CSV版）",
-    "slug": "juhe-api-catalog-full-csv",
+    "title": "丰图代码仓人员工作分析（按最近提交）",
+    "slug": "fengtu-repo-people-work-analysis-2026-03-17",
     "date": "2026-03-17",
-    "tags": [
-      "数据与智能",
-      "平台与架构",
-      "报告与盘点"
-    ]
-  },
-  {
-    "title": "聚合数据 API 全量目录（Markdown版）",
-    "slug": "juhe-api-catalog-full-md",
-    "date": "2026-03-17",
-    "tags": [
-      "数据与智能",
-      "平台与架构",
-      "报告与盘点"
-    ]
-  },
-  {
-    "title": "AI 地图体验框架：从范式到落地",
-    "slug": "ai-map-experience-framework",
-    "date": "2026-03-15",
-    "tags": [
-      "AI战略与转型",
-      "产品与体验"
-    ]
-  },
-  {
-    "title": "AI Talking",
-    "slug": "ai-transformation",
-    "date": "2026-03-15",
     "tags": [
       "AI战略与转型",
       "组织与管理",
-      "产品与体验"
-    ],
-    "type": "webslides",
-    "url": "./ai-transformation.html"
+      "研发效能"
+    ]
   },
   {
-    "title": "公司级 AI 专项推进报告",
-    "slug": "company-ai-special-initiative-report",
-    "date": "2026-03-15",
+    "title": "丰图代码仓人员工作分析（汇总版）",
+    "slug": "fengtu-people-work-summary",
+    "date": "2026-03-17",
+    "tags": [
+      "组织与管理",
+      "研发效能",
+      "报告与盘点"
+    ]
+  },
+  {
+    "title": "北京情指客户交流方案（软硬件一体，面向G1总体规划）",
+    "slug": "beijing-qingzhi-soft-hardware-solution-2026-03-17",
+    "date": "2026-03-17",
+    "tags": [
+      "行业与场景",
+      "项目与交付"
+    ],
+    "type": "webslides",
+    "url": "./beijing-qingzhi-soft-hardware-solution-2026-03-17.html"
+  },
+  {
+    "title": "北京经开区招商局交流思路（纯招商与产业服务版）",
+    "slug": "beijing-jkq-zhaoshang-article-2026-03-17",
+    "date": "2026-03-17",
     "tags": [
       "AI战略与转型",
-      "研发效能",
-      "数据与智能"
+      "行业与场景"
+    ],
+    "type": "note"
+  },
+  {
+    "title": "北京经开区招商局交流方案（丰图能力融合版）",
+    "slug": "beijing-jkq-fengtu-integrated-solution-v2-2026-03-17",
+    "date": "2026-03-17",
+    "tags": [
+      "AI战略与转型",
+      "行业与场景"
+    ],
+    "type": "note"
+  },
+  {
+    "title": "地图安全治理框架：从私网部署到隐私合规",
+    "slug": "map-security-governance-framework",
+    "date": "2026-03-15",
+    "tags": [
+      "产品与体验",
+      "安全与合规"
     ]
   },
   {
@@ -145,74 +166,61 @@
     "url": "./company-ai-weekly-report.html"
   },
   {
-    "title": "地图安全治理框架：从私网部署到隐私合规",
-    "slug": "map-security-governance-framework",
+    "title": "公司级 AI 专项推进报告",
+    "slug": "company-ai-special-initiative-report",
     "date": "2026-03-15",
     "tags": [
-      "产品与体验",
-      "安全与合规"
+      "AI战略与转型",
+      "研发效能",
+      "数据与智能"
     ]
   },
   {
-    "title": "AI+ Engineer：从共识到现实的三年进化",
-    "slug": "ai-engineer-evolution",
-    "date": "2026-03-14",
+    "title": "AI Talking",
+    "slug": "ai-transformation",
+    "date": "2026-03-15",
     "tags": [
       "AI战略与转型",
-      "组织与管理"
-    ]
+      "组织与管理",
+      "产品与体验"
+    ],
+    "type": "webslides",
+    "url": "./ai-transformation.html"
   },
   {
-    "title": "AI+产品：克制才是长期竞争力",
-    "slug": "ai-plus-product",
-    "date": "2026-03-14",
+    "title": "AI 地图体验框架：从范式到落地",
+    "slug": "ai-map-experience-framework",
+    "date": "2026-03-15",
     "tags": [
       "AI战略与转型",
       "产品与体验"
     ]
   },
   {
-    "title": "数据工厂：从手工作坊到自动化流水线",
-    "slug": "data-factory",
-    "date": "2026-03-14",
-    "tags": [
-      "研发效能",
-      "数据与智能",
-      "工程实践"
-    ]
-  },
-  {
-    "title": "边缘原生渲染：把地图计算搬到用户端",
-    "slug": "edge-native-rendering",
+    "title": "空间智能Lab：从地图到知识图谱",
+    "slug": "spatial-intelligence-lab",
     "date": "2026-03-14",
     "tags": [
       "产品与体验",
-      "工程实践"
-    ]
-  },
-  {
-    "title": "GTC2026空间智能机会",
-    "slug": "gtc-spatial-intelligence-opportunity",
-    "date": "2026-03-14",
-    "tags": [
-      "AI战略与转型",
+      "数据与智能",
       "空间智能"
     ]
   },
   {
-    "title": "多模态地图理解：从像素到语义的跨越",
-    "slug": "multimodal-map-understanding",
+    "title": "场景化运营：从通用地图到行业套件",
+    "slug": "scenario-based-operations",
     "date": "2026-03-14",
     "tags": [
       "产品与体验",
-      "数据与智能"
+      "行业与场景"
     ]
   },
   {
-    "title": "开放平台3.0：从API到能力网格",
-    "slug": "open-platform-3-0",
+    "title": "实时空间计算：让数据在流动中产生价值",
+    "slug": "realtime-spatial-computing",
     "date": "2026-03-14",
     "tags": [
+      "数据与智能",
       "平台与架构",
       "工程实践"
     ]
@@ -227,69 +235,67 @@
     ]
   },
   {
-    "title": "实时空间计算：让数据在流动中产生价值",
-    "slug": "realtime-spatial-computing",
+    "title": "开放平台3.0：从API到能力网格",
+    "slug": "open-platform-3-0",
     "date": "2026-03-14",
     "tags": [
-      "数据与智能",
       "平台与架构",
       "工程实践"
     ]
   },
   {
-    "title": "场景化运营：从通用地图到行业套件",
-    "slug": "scenario-based-operations",
+    "title": "多模态地图理解：从像素到语义的跨越",
+    "slug": "multimodal-map-understanding",
     "date": "2026-03-14",
     "tags": [
       "产品与体验",
-      "行业与场景"
+      "数据与智能"
     ]
   },
   {
-    "title": "空间智能Lab：从地图到知识图谱",
-    "slug": "spatial-intelligence-lab",
+    "title": "GTC2026空间智能机会",
+    "slug": "gtc-spatial-intelligence-opportunity",
     "date": "2026-03-14",
     "tags": [
-      "产品与体验",
-      "数据与智能",
+      "AI战略与转型",
       "空间智能"
     ]
   },
   {
-    "title": "G1 Product 仓库代码分析报告（2026-03-17）",
-    "slug": "g1-product-code-analysis-2026-03-17",
-    "date": "2026-03-17",
+    "title": "边缘原生渲染：把地图计算搬到用户端",
+    "slug": "edge-native-rendering",
+    "date": "2026-03-14",
     "tags": [
-      "组织与管理",
+      "产品与体验",
+      "工程实践"
+    ]
+  },
+  {
+    "title": "数据工厂：从手工作坊到自动化流水线",
+    "slug": "data-factory",
+    "date": "2026-03-14",
+    "tags": [
       "研发效能",
-      "空间智能"
+      "数据与智能",
+      "工程实践"
     ]
   },
   {
-    "title": "北京情指客户交流方案（软硬件一体，面向G1总体规划）",
-    "slug": "beijing-qingzhi-soft-hardware-solution-2026-03-17",
-    "date": "2026-03-17",
-    "tags": [
-      "行业与场景",
-      "项目与交付"
-    ]
-  },
-  {
-    "title": "北京经开区招商局交流方案（丰图能力融合版）",
-    "slug": "beijing-jkq-fengtu-integrated-solution-v2-2026-03-17",
-    "date": "2026-03-17",
+    "title": "AI+产品：克制才是长期竞争力",
+    "slug": "ai-plus-product",
+    "date": "2026-03-14",
     "tags": [
       "AI战略与转型",
-      "行业与场景"
+      "产品与体验"
     ]
   },
   {
-    "title": "北京经开区招商局交流思路（纯招商与产业服务版）",
-    "slug": "beijing-jkq-zhaoshang-article-2026-03-17",
-    "date": "2026-03-17",
+    "title": "AI+ Engineer：从共识到现实的三年进化",
+    "slug": "ai-engineer-evolution",
+    "date": "2026-03-14",
     "tags": [
       "AI战略与转型",
-      "行业与场景"
+      "组织与管理"
     ]
   }
 ]
