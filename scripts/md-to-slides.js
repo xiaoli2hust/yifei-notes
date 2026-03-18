@@ -108,8 +108,8 @@ function buildHtml({ slides, deckTitle = 'Slides', outputCss = './slides.css' })
 </head>
 <body class="ai-transformation-root">
   <div class="ai-deck-shell" id="deckShell">
-    <div class="ai-deck-topbar">
-      <a href="./index.html" class="back">← 返回 Jerry Notes</a>
+    <div class="ai-deck-topbar" id="deckTopbar">
+      <a href="./index.html" class="back" id="deckBackLink">← 返回 Jerry Notes</a>
       <div class="ai-deck-logo">${escapeHtml(deckTitle)}</div>
       <div class="ai-deck-shortcuts">←/→ 翻页 · Space 下一页 · N 备注 · O 总览 · F 全屏</div>
       <button id="fullscreenBtn" class="slides-fullscreen-btn" type="button">⤢ 全屏</button>
@@ -159,6 +159,8 @@ function buildHtml({ slides, deckTitle = 'Slides', outputCss = './slides.css' })
     const elOverview = document.getElementById('overview');
     const elFullscreenBtn = document.getElementById('fullscreenBtn');
     const elDeckShell = document.getElementById('deckShell');
+    const elDeckTopbar = document.getElementById('deckTopbar');
+    const elDeckBackLink = document.getElementById('deckBackLink');
     const elPrevBtn = document.getElementById('prevBtn');
     const elNextBtn = document.getElementById('nextBtn');
 
@@ -265,6 +267,15 @@ function buildHtml({ slides, deckTitle = 'Slides', outputCss = './slides.css' })
         if (elDeckShell.requestFullscreen) elDeckShell.requestFullscreen();
       } else {
         if (document.exitFullscreen) document.exitFullscreen();
+      }
+    }
+
+    // If this deck is embedded inside notes viewer iframe, hide deck-level back link
+    // to avoid nested homepage-in-homepage confusion.
+    if (window.self !== window.top) {
+      if (elDeckBackLink) elDeckBackLink.style.display = 'none';
+      if (elDeckTopbar) {
+        elDeckTopbar.style.gridTemplateColumns = '1fr auto auto';
       }
     }
 
