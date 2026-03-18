@@ -118,6 +118,7 @@ function buildHtml({ slides, deckTitle = 'Slides', outputCss = './slides.css' })
     <div id="overview" class="ai-overview-grid hidden"></div>
 
     <div class="ai-deck-main">
+      <button id="prevBtn" class="slide-nav-btn" type="button" aria-label="上一页">←</button>
       <div id="slideFrame" class="ai-slide-frame">
         <div class="ai-slide-inner">
           <header class="ai-slide-header">
@@ -138,6 +139,7 @@ function buildHtml({ slides, deckTitle = 'Slides', outputCss = './slides.css' })
         </div>
         <aside id="slideNotes" class="ai-slide-notes hidden"></aside>
       </div>
+      <button id="nextBtn" class="slide-nav-btn" type="button" aria-label="下一页">→</button>
     </div>
   </div>
 
@@ -157,6 +159,8 @@ function buildHtml({ slides, deckTitle = 'Slides', outputCss = './slides.css' })
     const elOverview = document.getElementById('overview');
     const elFullscreenBtn = document.getElementById('fullscreenBtn');
     const elDeckShell = document.getElementById('deckShell');
+    const elPrevBtn = document.getElementById('prevBtn');
+    const elNextBtn = document.getElementById('nextBtn');
 
     function resolveHref(href) {
       if (href === '/') return './index.html';
@@ -266,6 +270,20 @@ function buildHtml({ slides, deckTitle = 'Slides', outputCss = './slides.css' })
 
     if (elFullscreenBtn) {
       elFullscreenBtn.addEventListener('click', toggleFullscreen);
+    }
+
+    if (elPrevBtn) {
+      elPrevBtn.addEventListener('click', (e) => {
+        e.preventDefault();
+        goPrev();
+      });
+    }
+
+    if (elNextBtn) {
+      elNextBtn.addEventListener('click', (e) => {
+        e.preventDefault();
+        goNext();
+      });
     }
 
     document.addEventListener('fullscreenchange', syncFullscreenUi);
