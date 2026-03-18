@@ -378,7 +378,8 @@ function mdToHtml(mdRaw = '') {
       continue;
     }
 
-    const ul = line.match(/^[-*+]\s+(.*)$/);
+    // 支持缩进列表（例如两级列表："  - item"）
+    const ul = line.match(/^\s*[-*+]\s+(.*)$/);
     if (ul) {
       flushPara();
       if (!inUl) {
