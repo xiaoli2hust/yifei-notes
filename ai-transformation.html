@@ -9,7 +9,7 @@
 <body class="ai-transformation-root">
   <div class="ai-deck-shell" id="deckShell">
     <div class="ai-deck-topbar">
-      <a href="./index.html" class="back">← 返回 Jerry Notes</a>
+      <a href="./index.html" class="back" target="_top" rel="noreferrer">← 返回 Jerry Notes</a>
       <div class="ai-deck-logo">AI Talking</div>
       <div class="ai-deck-shortcuts">←/→ 翻页 · Space 下一页 · N 备注 · O 总览 · F 全屏</div>
       <button id="fullscreenBtn" class="slides-fullscreen-btn" type="button">⤢ 全屏</button>
@@ -70,8 +70,6 @@
     if (isEmbedded) {
       document.body.classList.add('embedded-mode');
       if (elFullscreenBtn) elFullscreenBtn.style.display = 'none';
-      if (elPrevBtn) elPrevBtn.style.display = 'none';
-      if (elNextBtn) elNextBtn.style.display = 'none';
     }
 
     function mapHref(href = '') {

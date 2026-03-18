@@ -9,7 +9,7 @@
 <body class="ai-transformation-root">
   <div class="ai-deck-shell" id="deckShell">
     <div class="ai-deck-topbar">
-      <a href="./index.html" class="back">← 返回 Jerry Notes</a>
+      <a href="./index.html" class="back" target="_top" rel="noreferrer">← 返回 Jerry Notes</a>
       <div class="ai-deck-logo">公司级 AI 专项周汇报（8页）</div>
       <div class="ai-deck-shortcuts">←/→ 翻页 · Space 下一页 · N 备注 · O 总览 · F 全屏</div>
       <button id="fullscreenBtn" class="slides-fullscreen-btn" type="button">⤢ 全屏</button>
@@ -192,6 +192,7 @@
     let currentIndex = 0;
     let showNotes = false;
     let showOverview = false;
+    const isEmbedded = new URLSearchParams(location.search).get('embed') === '1';
 
     const elMain = document.getElementById('slideMain');
     const elTag = document.getElementById('slideTag');
@@ -212,6 +213,13 @@
       return href;
     }
 
+    if (isEmbedded) {
+      document.body.classList.add('embedded-mode');
+      const topbar = document.querySelector('.ai-deck-topbar');
+      if (topbar) topbar.style.display = 'none';
+      if (elFullscreenBtn) elFullscreenBtn.style.display = 'none';
+    }
+
     function syncThemeFromParent() {
       try {
         const p = window.parent && window.parent !== window ? window.parent.document.body : null;
@@ -226,7 +234,7 @@
         .map((s, i) => '<button class="ai-overview-item ' + (i === currentIndex ? 'ai-overview-item-active' : '') + '" data-i="' + i + '">' +
           '<div class="ai-overview-index">' + (i + 1) + '</div>' +
           '<div class="ai-overview-tag">' + (s.tag || '') + '</div>' +
-          '<div class="ai-overview-title">' + (s.title || '') + '</div>' +
+          '<div class="ai-overview-title">' + formatSlideText(s.title || '') + '</div>' +
           '</button>')
         .join('');
 
@@ -237,6 +245,15 @@
           render();
         });
       });
+    }
+
+    function formatSlideText(text = "") {
+      return String(text)
+        .replaceAll('&lt;br/&gt;', '<br/>')
+        .replaceAll('&lt;br&gt;', '<br/>')
+        .replaceAll('\n', '<br/>')
+        .replaceAll('&lt;strong&gt;', '<strong>')
+        .replaceAll('&lt;/strong&gt;', '</strong>');
     }
 
     function render() {
@@ -257,20 +274,20 @@
         let out = '';
         for (const raw of items) {
           const txt = raw || '';
-          const isSection = /[:：]s*$/.test(txt);
+          const isSection = /[:：]\s*$/.test(txt);
           if (isSection) {
             sec += 1;
-            const title = txt.replace(/[:：]s*$/, '');
+            const title = txt.replace(/[:：]\s*$/, '');
             out += '<li class="bullet-section"><span class="bullet-index">' + sec + '.</span><strong>' + title + '</strong></li>';
           } else {
-            out += '<li class="bullet-sub">' + txt + '</li>';
+            out += '<li class="bullet-sub">' + formatSlideText(txt) + '</li>';
           }
         }
         return '<ul class="ai-slide-bullets">' + out + '</ul>';
       }
 
-      let html = '<h1 class="ai-slide-title">' + (s.title || '') + '</h1>';
-      if (s.subtitle) html += '<h2 class="ai-slide-subtitle">' + s.subtitle + '</h2>';
+      let html = '<h1 class="ai-slide-title">' + formatSlideText(s.title || '') + '</h1>';
+      if (s.subtitle) html += '<h2 class="ai-slide-subtitle">' + formatSlideText(s.subtitle) + '</h2>';
       if (s.bullets?.length) html += renderBullets(s.bullets);
       if (s.buttons?.length) {
         html += '<div class="ai-slide-buttons">' + s.buttons.map((b) => {
