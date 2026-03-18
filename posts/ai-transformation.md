@@ -23,9 +23,9 @@ type: webslides
 @part: Intro
 @notes: 轻松过一遍结构，不展开细节。提醒听众：从“我与 AI”起步，逐步放大到“组织”与“产品”。
 
-- <strong>Part 1 · 我与 AI</strong><br/>从行业共识，到真正敢把活交给 AI 的转折
-- <strong>Part 2 · 大家与 AI</strong><br/>每个人、每位主管，如何把 AI 装进自己的工作方式
-- <strong>Part 3 · 产品与 AI</strong><br/>丰图在 AI 时代的定力、主线和加速信心
+- **Part 1 · 我与 AI**：从行业共识，到真正敢把活交给 AI 的转折
+- **Part 2 · 大家与 AI**：每个人、每位主管，如何把 AI 装进自己的工作方式
+- **Part 3 · 产品与 AI**：丰图在 AI 时代的定力、主线和加速信心
 
 ---
 
