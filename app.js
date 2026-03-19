@@ -149,17 +149,49 @@ function normalizePostTags(post = {}) {
   return FIXED_TAGS.filter((t) => normalized.includes(t)).slice(0, 3);
 }
 
+function toTimestamp(value) {
+  if (!value) return Number.NaN;
+  const input = String(value).trim();
+  if (!input) return Number.NaN;
+  const normalized = /\d{4}-\d{2}-\d{2}\s+\d{2}:\d{2}(:\d{2})?$/.test(input)
+    ? input.replace(' ', 'T')
+    : input;
+  const t = Date.parse(normalized);
+  return Number.isNaN(t) ? Number.NaN : t;
+}
+
+function postSortTime(post = {}) {
+  const candidates = [post.datetime, post.dateTime, post.publishedAt, post.published_at, post.date];
+  for (const value of candidates) {
+    const t = toTimestamp(value);
+    if (!Number.isNaN(t)) return t;
+  }
+  return 0;
+}
+
+function comparePosts(a, b) {
+  const ta = postSortTime(a);
+  const tb = postSortTime(b);
+  if (ta !== tb) return tb - ta;
+  return b.slug.localeCompare(a.slug, 'zh-CN');
+}
+
 function normalizePosts(raw = []) {
-  return (Array.isArray(raw) ? raw : []).map((post) => ({
-    ...post,
-    tags: normalizePostTags(post),
-  }));
+  return (Array.isArray(raw) ? raw : [])
+    .map((post) => ({
+      ...post,
+      tags: normalizePostTags(post),
+    }))
+    .sort(comparePosts);
 }
 
 const postListEl = document.getElementById('post-list');
 const tagFilterEl = document.getElementById('tag-filter');
 const monthFilterEl = document.getElementById('month-filter');
 const resetFilterBtn = document.getElementById('reset-filter');
+const filterToggleBtn = document.getElementById('filter-toggle');
+const indexPanelEl = document.getElementById('index-panel');
+const tagMoreBtn = document.getElementById('tag-more');
 
 const viewer = document.getElementById('viewer');
 const contentEl = document.getElementById('post-content');
@@ -171,6 +203,34 @@ const themeToggleBtn = document.getElementById('theme-toggle');
 const postsSection = document.getElementById('posts');
 
 let currentPost = null;
+let isMobileFilterOpen = false;
+let showAllMobileTags = false;
+
+function isMobileViewport() {
+  return window.matchMedia('(max-width: 900px)').matches;
+}
+
+function selectedFilterCount() {
+  return Number(Boolean(activeTag)) + Number(Boolean(activeMonth));
+}
+
+function syncFilterPanelState() {
+  if (!indexPanelEl || !filterToggleBtn) return;
+
+  const count = selectedFilterCount();
+  const suffix = count > 0 ? `(${count})` : '';
+
+  if (isMobileViewport()) {
+    indexPanelEl.classList.toggle('collapsed-mobile', !isMobileFilterOpen);
+    filterToggleBtn.textContent = isMobileFilterOpen ? `收起${suffix}` : `筛选${suffix}`;
+    filterToggleBtn.setAttribute('aria-expanded', isMobileFilterOpen ? 'true' : 'false');
+  } else {
+    indexPanelEl.classList.remove('collapsed-mobile');
+    const collapsed = indexPanelEl.classList.contains('collapsed-desktop');
+    filterToggleBtn.textContent = collapsed ? `展开${suffix}` : `收起${suffix}`;
+    filterToggleBtn.setAttribute('aria-expanded', collapsed ? 'false' : 'true');
+  }
+}
 
 document.getElementById('year').textContent = new Date().getFullYear();
 
@@ -235,17 +295,28 @@ function renderFilters() {
   const tags = getAllTags(posts);
   const months = getAllMonths(posts);
 
-  tagFilterEl.innerHTML = tags
+  const visibleTags =
+    isMobileViewport() && !showAllMobileTags && !activeTag ? tags.slice(0, 6) : tags;
+
+  tagFilterEl.innerHTML = visibleTags
     .map(
       (tag) => `<button class="chip ${activeTag === tag ? 'active' : ''}" data-tag="${tag}">${tag}</button>`,
     )
     .join('');
 
-  monthFilterEl.innerHTML = months
-    .map(
-      (m) => `<button class="chip ${activeMonth === m ? 'active' : ''}" data-month="${m}">${m}</button>`,
-    )
+  if (tagMoreBtn) {
+    const shouldShow = isMobileViewport() && tags.length > 6 && !activeTag;
+    tagMoreBtn.classList.toggle('hidden', !shouldShow);
+    if (shouldShow) {
+      tagMoreBtn.textContent = showAllMobileTags ? '收起标签' : '展开更多标签';
+    }
+  }
+
+  monthFilterEl.innerHTML = [`<option value="">全部月份</option>`]
+    .concat(months.map((m) => `<option value="${m}" ${activeMonth === m ? 'selected' : ''}>${m}</option>`))
     .join('');
+
+  syncFilterPanelState();
 }
 
 function parseInline(text = '') {
@@ -485,17 +556,22 @@ if (tagFilterEl) {
     if (!el) return;
     const tag = el.dataset.tag;
     activeTag = activeTag === tag ? null : tag;
+    if (activeTag) showAllMobileTags = true;
     renderFilters();
     renderList();
   });
 }
 
+if (tagMoreBtn) {
+  tagMoreBtn.addEventListener('click', () => {
+    showAllMobileTags = !showAllMobileTags;
+    renderFilters();
+  });
+}
+
 if (monthFilterEl) {
-  monthFilterEl.addEventListener('click', (e) => {
-    const el = e.target.closest('button[data-month]');
-    if (!el) return;
-    const month = el.dataset.month;
-    activeMonth = activeMonth === month ? null : month;
+  monthFilterEl.addEventListener('change', () => {
+    activeMonth = monthFilterEl.value || null;
     renderFilters();
     renderList();
   });
@@ -505,10 +581,30 @@ if (resetFilterBtn) {
   resetFilterBtn.addEventListener('click', () => {
     activeTag = null;
     activeMonth = null;
+    showAllMobileTags = false;
     renderFilters();
     renderList();
   });
 }
+
+if (filterToggleBtn) {
+  filterToggleBtn.addEventListener('click', () => {
+    if (isMobileViewport()) {
+      isMobileFilterOpen = !isMobileFilterOpen;
+    } else {
+      indexPanelEl?.classList.toggle('collapsed-desktop');
+    }
+    syncFilterPanelState();
+  });
+}
+
+window.addEventListener('resize', () => {
+  if (!isMobileViewport()) {
+    isMobileFilterOpen = false;
+  }
+  syncFilterPanelState();
+  renderFilters();
+});
 
 backBtn.addEventListener('click', () => {
   // Stable return-to-list behavior, even after a hard refresh on a #slug URL.
@@ -610,6 +706,8 @@ async function bootstrap() {
   }
 
   initTheme();
+  isMobileFilterOpen = false;
+  syncFilterPanelState();
   renderFilters();
   renderList();
 

@@ -56,15 +56,22 @@
       </section>
     </section>
 
-    <aside class="index-panel">
-      <div class="filter-title">索引筛选</div>
-      <button id="reset-filter" class="btn btn-small">重置筛选</button>
+    <aside id="index-panel" class="index-panel">
+      <div class="index-panel-head">
+        <div class="filter-title">索引筛选</div>
+        <button id="filter-toggle" class="btn btn-small filter-toggle-btn" type="button" aria-expanded="true">收起</button>
+      </div>
 
-      <h3>按主题标签</h3>
-      <div id="tag-filter" class="chips"></div>
+      <div class="index-panel-body" id="index-panel-body">
+        <button id="reset-filter" class="btn btn-small">重置筛选</button>
 
-      <h3>按年月</h3>
-      <div id="month-filter" class="chips"></div>
+        <h3>按主题标签</h3>
+        <div id="tag-filter" class="chips"></div>
+        <button id="tag-more" class="btn btn-small tag-more-btn hidden" type="button">展开更多标签</button>
+
+        <h3>按年月</h3>
+        <select id="month-filter" class="month-select" aria-label="按年月筛选"></select>
+      </div>
     </aside>
   </main>
 
