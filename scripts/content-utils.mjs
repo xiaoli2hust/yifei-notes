@@ -150,12 +150,104 @@ function firstHeading(markdown = '') {
   return match ? match[1].trim() : '';
 }
 
-function comparePosts(a, b) {
-  if (a.date !== b.date) {
-    return a.date < b.date ? 1 : -1;
+function stripMarkdownInline(text = '') {
+  return String(text)
+    .replace(/`([^`]+)`/g, '$1')
+    .replace(/\*\*([^*]+)\*\*/g, '$1')
+    .replace(/\*([^*]+)\*/g, '$1')
+    .replace(/\[([^\]]+)\]\([^\)]+\)/g, '$1')
+    .replace(/!\[[^\]]*\]\([^\)]+\)/g, '')
+    .replace(/[#>*_-]/g, ' ')
+    .replace(/\s+/g, ' ')
+    .trim();
+}
+
+function looksReadableSummary(text = '') {
+  if (!text || text.length < 16) return false;
+  if (text.includes('|') || text.includes('<') || text.includes('>')) return false;
+  if (text.includes('@part:') || text.includes('@tag:')) return false;
+
+  const clean = text.replace(/\s+/g, '');
+  const readableChars = (clean.match(/[\u4e00-\u9fffA-Za-z0-9，。！？；：“”‘’、,.!?;:()（）【】《》\-]/g) || []).length;
+  const ratio = readableChars / Math.max(clean.length, 1);
+  if (ratio < 0.88) return false;
+
+  // avoid OCR garbage patterns such as sparse symbols or mixed broken fragments
+  const hasCJK = /[\u4e00-\u9fff]/.test(text);
+  const hasLatinWord = /[A-Za-z]{3,}/.test(text);
+  return hasCJK || hasLatinWord;
+}
+
+function firstSummary(markdown = '') {
+  const lines = normalizeLineEndings(markdown)
+    .split('\n')
+    .map((line) => line.trim())
+    .filter(Boolean)
+    .filter((line) => !line.startsWith('#'))
+    .filter((line) => !line.startsWith('>'))
+    .filter((line) => !line.startsWith('```'))
+    .filter((line) => !line.startsWith('!['))
+    .filter((line) => !/^\d+\.\s/.test(line))
+    .filter((line) => !/^[-*+]\s/.test(line));
+
+  for (const line of lines.slice(0, 20)) {
+    const candidate = stripMarkdownInline(line);
+    if (!looksReadableSummary(candidate)) continue;
+    return candidate.length > 110 ? `${candidate.slice(0, 110)}…` : candidate;
   }
 
-  return a.slug.localeCompare(b.slug, 'zh-CN');
+  return '';
+}
+
+function toTimestamp(value) {
+  if (!value) return Number.NaN;
+  const input = String(value).trim();
+  if (!input) return Number.NaN;
+
+  // "YYYY-MM-DD HH:mm" -> "YYYY-MM-DDTHH:mm" (local time)
+  const normalized = /\d{4}-\d{2}-\d{2}\s+\d{2}:\d{2}(:\d{2})?$/.test(input)
+    ? input.replace(' ', 'T')
+    : input;
+
+  const t = Date.parse(normalized);
+  return Number.isNaN(t) ? Number.NaN : t;
+}
+
+function resolvePostTimestamp(post) {
+  const candidates = [
+    post.datetime,
+    post.dateTime,
+    post.publishedAt,
+    post.published_at,
+    post.date,
+  ];
+
+  for (const value of candidates) {
+    const t = toTimestamp(value);
+    if (!Number.isNaN(t)) return t;
+  }
+
+  // Fallback: file modification time to keep same-day new posts in front.
+  if (post.sourcePath) {
+    try {
+      return fs.statSync(post.sourcePath).mtimeMs;
+    } catch {
+      // ignore
+    }
+  }
+
+  return 0;
+}
+
+function comparePosts(a, b) {
+  const ta = resolvePostTimestamp(a);
+  const tb = resolvePostTimestamp(b);
+
+  if (ta !== tb) {
+    return tb - ta;
+  }
+
+  return b.slug.localeCompare(a.slug, 'zh-CN');
 }
 
 function toRecord(post) {
@@ -166,6 +258,7 @@ function toRecord(post) {
     tags: post.tags,
   };
 
+  if (post.datetime) record.datetime = post.datetime;
   if (post.type) record.type = post.type;
   if (post.url) record.url = post.url;
   if (post.summary) record.summary = post.summary;
@@ -199,11 +292,12 @@ export function collectPosts(rootDir) {
 
     const title = pickString(data.title, firstHeading(content));
     const date = pickString(data.date);
+    const datetime = pickString(data.datetime, data.dateTime, data.publishedAt, data.published_at);
     const tags = normalizeTags(data.tags);
     const typeValue = pickString(data.type);
     const type = typeValue || undefined;
     const url = pickString(data.url) || (type === 'webslides' ? `./${slug}.html` : undefined);
-    const summary = pickString(data.summary) || undefined;
+    const summary = pickString(data.summary, firstSummary(content)) || undefined;
     const fileErrors = [];
 
     if (!title) {
@@ -223,6 +317,7 @@ export function collectPosts(rootDir) {
       title,
       slug,
       date,
+      datetime,
       tags,
       type,
       url,

@@ -280,14 +280,16 @@ function renderList() {
   }
 
   postListEl.innerHTML = current
-    .map(
-      (p) => `
+    .map((p) => {
+      const summary = p.summary ? `<div class="post-summary">${escapeHtml(p.summary)}</div>` : '';
+      return `
     <li>
       <a class="post-link" href="#${p.slug}" data-slug="${p.slug}">${p.title}</a>
+      ${summary}
       <div class="post-meta">${p.date || ''} · ${(p.tags || []).join(' / ')}</div>
     </li>
-  `,
-    )
+  `;
+    })
     .join('');
 }
 

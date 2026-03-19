@@ -1,21 +1,21 @@
 :root {
-  --bg: #0b1220;
-  --card: #121b2e;
-  --text: #e6ecff;
-  --muted: #95a2c9;
-  --accent: #6ea8ff;
-  --border: #23304f;
+  --bg: #0e1116;
+  --card: #171b22;
+  --text: #edf2fa;
+  --muted: #9aa6ba;
+  --accent: #7aa2ff;
+  --border: #2a323f;
   --header-bg: transparent;
 }
 
 body[data-theme='light'] {
-  --bg: #f6f8fc;
+  --bg: #f5f7fb;
   --card: #ffffff;
-  --text: #1f2a3d;
-  --muted: #5d6b86;
-  --accent: #2f73ff;
-  --border: #d8e1f2;
-  --header-bg: rgba(255,255,255,0.45);
+  --text: #1a2433;
+  --muted: #6a768c;
+  --accent: #406dff;
+  --border: #dce3ef;
+  --header-bg: rgba(255,255,255,0.7);
 }
 
 body[data-theme='light'] .card {
@@ -144,12 +144,13 @@ body {
   padding: 18px;
 }
 .post-list { list-style: none; margin: 0; padding: 0; }
-.post-list li { padding: 12px 0; border-bottom: 1px dashed var(--border); }
+.post-list li { padding: 14px 0 16px; border-bottom: 1px dashed var(--border); }
 .post-list li:last-child { border-bottom: none; }
 .post-list-featured { margin-bottom: 10px; }
 .post-list-featured li { padding: 10px 0; }
-.post-link { color: #dce6ff; text-decoration: none; font-size: 18px; font-weight: 600; }
-.post-meta { color: var(--muted); font-size: 13px; margin-top: 4px; }
+.post-link { color: #dce6ff; text-decoration: none; font-size: 22px; line-height: 1.35; font-weight: 700; }
+.post-summary { color: color-mix(in srgb, var(--text) 78%, var(--muted) 22%); font-size: 14px; line-height: 1.65; margin-top: 8px; }
+.post-meta { color: var(--muted); font-size: 12px; margin-top: 8px; }
 .btn {
   border: 1px solid var(--border);
   border-radius: 8px;
