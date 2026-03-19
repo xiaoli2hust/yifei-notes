@@ -685,8 +685,4 @@ body[data-theme='light'] .month-select {
   .posts-grid {
     grid-template-columns: 1fr;
   }
-
-  .index-panel {
-    position: static;
-  }
 }
