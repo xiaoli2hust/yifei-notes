@@ -614,26 +614,47 @@ body[data-theme='light'] .month-select {
     width: 100%;
   }
 
+  /* Mobile filter turns into floating panel: zero document height usage */
   .index-panel {
-    position: static;
-    order: -1;
-    padding: 10px 12px;
+    position: fixed;
+    right: 12px;
+    bottom: 14px;
+    z-index: 40;
+    width: min(90vw, 360px);
+    order: initial;
+    padding: 0;
+    border: none;
+    background: transparent;
+  }
+
+  .index-panel-head {
+    justify-content: flex-end;
   }
 
   .index-panel .filter-title {
-    margin-bottom: 0;
+    display: none;
+  }
+
+  .filter-toggle-btn {
+    border-radius: 999px;
+    padding: 8px 12px;
+    box-shadow: 0 8px 24px rgba(0, 0, 0, 0.28);
+    backdrop-filter: blur(6px);
   }
 
   .index-panel-body {
-    margin-top: 10px;
+    margin-top: 8px;
+    padding: 10px 12px;
+    border: 1px solid var(--border);
+    border-radius: 12px;
+    background: color-mix(in srgb, var(--card) 92%, black 8%);
+    box-shadow: 0 12px 32px rgba(0, 0, 0, 0.35);
+    max-height: 58vh;
+    overflow: auto;
   }
 
   .index-panel.collapsed-mobile .index-panel-body {
     display: none;
-  }
-
-  .index-panel.collapsed-mobile {
-    margin-bottom: 2px;
   }
 
   .chips {
