@@ -520,8 +520,39 @@ body[data-theme='light'] .month-select {
     grid-template-columns: 1fr;
   }
 
+  .site-header {
+    padding: 14px 0 12px;
+  }
+
   .site-title-row {
-    flex-direction: column;
+    flex-direction: row;
+    align-items: center;
+    gap: 8px;
+  }
+
+  .site-header h1 {
+    margin: 0 0 4px;
+  }
+
+  .site-header p {
+    margin: 0 0 6px;
+  }
+
+  .site-header nav {
+    display: flex;
+    gap: 12px;
+    align-items: center;
+  }
+
+  .site-header nav a {
+    margin-right: 0;
+    font-size: 17px;
+  }
+
+  #theme-toggle {
+    padding: 3px 8px;
+    font-size: 12px;
+    white-space: nowrap;
   }
 
   .viewer-toolbar {
